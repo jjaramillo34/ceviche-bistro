@@ -12,19 +12,23 @@ const images = [
   // Add more images as needed
 ];
 
-const PrevArrow = (props) => {
-  const { className, onClick } = props;
+const PrevArrow = ({ className, onClick }) => {
   return (
-    <div className={className} onClick={onClick}>
+    <div
+      className={`${className} !flex items-center justify-center w-10 h-10 rounded-full bg-white bg-opacity-70 hover:bg-opacity-100 transition-all duration-300 before:content-none`}
+      onClick={onClick}
+    >
       <ChevronLeft size={24} className="text-[#004AAE]" />
     </div>
   );
 };
 
-const NextArrow = (props) => {
-  const { className, onClick } = props;
+const NextArrow = ({ className, onClick }) => {
   return (
-    <div className={className} onClick={onClick}>
+    <div
+      className={`${className} !flex items-center justify-center w-10 h-10 rounded-full bg-white bg-opacity-70 hover:bg-opacity-100 transition-all duration-300 before:content-none`}
+      onClick={onClick}
+    >
       <ChevronRight size={24} className="text-[#004AAE]" />
     </div>
   );
@@ -65,22 +69,24 @@ const Gallery = ({ language }) => {
         <h2 className="text-4xl font-bold text-center mb-12 text-[#004AAE]">
           {language === "en" ? "Our Gallery" : "Nuestra Galería"}
         </h2>
-        <Slider {...settings} className="gallery-slider">
-          {images.map((image, index) => (
-            <div key={index} className="px-2">
-              <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img
-                  src={image.src}
-                  alt={image.alt}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-4">
-                  <p className="text-[#333333] text-center">{image.alt}</p>
+        <div className="gallery-slider">
+          <Slider {...settings}>
+            {images.map((image, index) => (
+              <div key={index} className="px-2">
+                <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-64 object-cover"
+                  />
+                  <div className="p-4">
+                    <p className="text-[#333333] text-center">{image.alt}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </Slider>
+            ))}
+          </Slider>
+        </div>
       </div>
     </section>
   );
