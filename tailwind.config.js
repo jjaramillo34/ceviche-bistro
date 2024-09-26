@@ -3,8 +3,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "ceviche-blue": "#3B82F6",
-        "ceviche-green": "#10B981",
+        "ceviche-blue": "#004AAE",
+        "ceviche-gold": "#DDC36B",
+        "ceviche-dark": "#333333",
+        "ceviche-light": "#F5F5F5",
       },
       fontFamily: {
         sans: ["Poppins", "sans-serif"],

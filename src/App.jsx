@@ -5,6 +5,8 @@ import About from "./components/About";
 import Menu from "./components/Menu";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import Catering from "./components/Catering";
+import Gallery from "./components/Gallery";
 
 function App() {
   const [language, setLanguage] = useState("en");
@@ -19,8 +21,10 @@ function App() {
       <main>
         <Hero language={language} />
         <About language={language} />
+        <Catering language={language} />
         <Menu language={language} />
         <Contact language={language} />
+        <Gallery language={language} />
       </main>
       <Footer language={language} />
     </div>

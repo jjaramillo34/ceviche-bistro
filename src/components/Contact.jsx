@@ -1,73 +1,128 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Contact = ({ language }) => {
+  const formRef = useRef(null);
+  const infoRef = useRef(null);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(formRef.current, {
+        opacity: 0,
+        x: -50,
+        duration: 1,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none none",
+        },
+      });
+
+      gsap.from(infoRef.current, {
+        opacity: 0,
+        x: 50,
+        duration: 1,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none none",
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert(); // Cleanup
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission
+    console.log("Form submitted");
   };
 
   return (
-    <section id="contact" className="py-16">
+    <section ref={sectionRef} id="contact" className="py-16 bg-[#F5F5F5]">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-8">
+        <h2 className="text-4xl font-bold text-center mb-12 text-[#004AAE]">
           {language === "en" ? "Contact Us" : "Contáctanos"}
         </h2>
-        <div className="flex flex-col md:flex-row">
-          <div className="md:w-1/2 mb-8 md:mb-0">
+        <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
+          <div ref={formRef} className="md:w-1/2 p-8">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="name" className="block mb-2">
+                <label
+                  htmlFor="name"
+                  className="block mb-2 text-[#333333] font-semibold"
+                >
                   {language === "en" ? "Name" : "Nombre"}
                 </label>
                 <input
                   type="text"
                   id="name"
                   name="name"
-                  className="w-full px-4 py-2 border rounded-lg"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004AAE]"
                   required
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block mb-2">
+                <label
+                  htmlFor="email"
+                  className="block mb-2 text-[#333333] font-semibold"
+                >
                   Email
                 </label>
                 <input
                   type="email"
                   id="email"
                   name="email"
-                  className="w-full px-4 py-2 border rounded-lg"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004AAE]"
                   required
                 />
               </div>
               <div>
-                <label htmlFor="message" className="block mb-2">
+                <label
+                  htmlFor="message"
+                  className="block mb-2 text-[#333333] font-semibold"
+                >
                   {language === "en" ? "Message" : "Mensaje"}
                 </label>
                 <textarea
                   id="message"
                   name="message"
                   rows="4"
-                  className="w-full px-4 py-2 border rounded-lg"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004AAE]"
                   required
                 ></textarea>
               </div>
               <button
                 type="submit"
-                className="bg-ceviche-blue text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-opacity-90 transition duration-300"
+                className="bg-[#DDC36B] text-[#333333] px-6 py-3 rounded-full text-lg font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300"
               >
                 {language === "en" ? "Send Message" : "Enviar Mensaje"}
               </button>
             </form>
           </div>
-          <div className="md:w-1/2 md:pl-8">
-            <h3 className="text-xl font-semibold mb-4">
+          <div
+            ref={infoRef}
+            className="md:w-1/2 bg-[#004AAE] text-white p-8 relative overflow-hidden"
+            style={{
+              backgroundImage:
+                "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23DDC36B' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E\")",
+            }}
+          >
+            <h3 className="text-2xl font-semibold mb-6 text-[#DDC36B]">
               {language === "en" ? "Find Us" : "Encuéntranos"}
             </h3>
-            <p className="mb-2">Email: info@cevichebistro.com</p>
-            <p className="mb-2">
+            <p className="mb-4">Email: info@cevichebistro.com</p>
+            <p className="mb-4">
               {language === "en" ? "Phone" : "Teléfono"}: (123) 456-7890
             </p>
-            <p className="mb-4">
+            <p className="mb-6">
               {language === "en"
                 ? "Follow us on social media for our daily locations!"
                 : "¡Síguenos en redes sociales para conocer nuestras ubicaciones diarias!"}
@@ -75,10 +130,11 @@ const Contact = ({ language }) => {
             <div className="flex space-x-4">
               <a
                 href="#"
-                className="text-ceviche-blue hover:text-ceviche-green transition duration-300"
+                className="text-white hover:text-[#DDC36B] transition duration-300"
+                aria-label="Facebook"
               >
                 <svg
-                  className="w-6 h-6"
+                  className="w-8 h-8"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -92,10 +148,11 @@ const Contact = ({ language }) => {
               </a>
               <a
                 href="#"
-                className="text-ceviche-blue hover:text-ceviche-green transition duration-300"
+                className="text-white hover:text-[#DDC36B] transition duration-300"
+                aria-label="Instagram"
               >
                 <svg
-                  className="w-6 h-6"
+                  className="w-8 h-8"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
