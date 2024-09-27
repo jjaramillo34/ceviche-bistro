@@ -72,7 +72,7 @@ const Footer = ({ language }) => {
             <ul className="space-y-2">
               <li className="flex items-center">
                 <Mail size={16} className="mr-2" />
-                <span>cevichebistro@gmail.com</span>
+                <span>cevichebistronyc@gmail.com</span>
               </li>
               <li className="flex items-center">
                 <Phone size={16} className="mr-2" />

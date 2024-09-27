@@ -173,7 +173,16 @@ const Contact = ({ language }) => {
             <div className="space-y-6">
               <div className="flex items-center">
                 <Mail size={24} className="text-[#DDC36B] mr-4" />
-                <p>cevichebistro@gmail.com</p>
+                <a
+                  href="mailto:cevichebistronyc@gmail.com"
+                  className="hover:underline"
+                >
+                  <p>
+                    {language === "en"
+                      ? "cevichebistronyc@gmail.com"
+                      : "cevichebistronyc@gmail.com"}
+                  </p>
+                </a>
               </div>
               <div className="flex items-center">
                 <Phone size={24} className="text-[#DDC36B] mr-4" />
