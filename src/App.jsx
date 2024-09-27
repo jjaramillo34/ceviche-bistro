@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FloatingWhatsApp } from "react-floating-whatsapp";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -8,6 +9,7 @@ import Footer from "./components/Footer";
 import Catering from "./components/Catering";
 import Gallery from "./components/Gallery";
 import Stats from "./components/Stats";
+import ScrollNavigation from "./components/ScrollNavigation";
 
 function App() {
   const [language, setLanguage] = useState("en");
@@ -20,15 +22,51 @@ function App() {
     <div className="font-sans">
       <Header language={language} toggleLanguage={toggleLanguage} />
       <main>
-        <Hero language={language} />
-        <About language={language} />
-        <Catering language={language} />
-        <Menu language={language} />
-        <Stats language={language} />
-        <Contact language={language} />
-        <Gallery language={language} />
+        <section id="hero">
+          <Hero language={language} />
+        </section>
+        <section id="about">
+          <About language={language} />
+        </section>
+        <section id="catering">
+          <Catering language={language} />
+        </section>
+        <section id="menu">
+          <Menu language={language} />
+        </section>
+        <section id="stats">
+          <Stats language={language} />
+        </section>
+        <section id="contact">
+          <Contact language={language} />
+        </section>
+        <section id="gallery">
+          <Gallery language={language} />
+        </section>
       </main>
       <Footer language={language} />
+      <ScrollNavigation />
+      <FloatingWhatsApp
+        phoneNumber="1234567890"
+        accountName="CevicheBistro"
+        allowEsc
+        allowClickAway
+        notification
+        notificationSound
+        statusMessage={
+          language === "en"
+            ? "Typically replies within 1 hour"
+            : "Normalmente responde en 1 hora"
+        }
+        chatMessage={
+          language === "en"
+            ? "Hello! 👋🏼 How can we help you?"
+            : "¡Hola! 👋🏼 ¿Cómo podemos ayudarte?"
+        }
+        placeholder={
+          language === "en" ? "Type a message..." : "Escribe un mensaje..."
+        }
+      />
     </div>
   );
 }
