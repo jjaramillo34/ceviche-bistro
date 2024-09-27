@@ -112,31 +112,33 @@ const MenuItem = ({ item, language }) => {
 
   return (
     <div ref={cardRef} className="px-4">
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 h-full">
-        <img
-          src={item.image}
-          alt={item.name[language]}
-          className="w-full h-48 object-cover"
-        />
-        <div className="p-6">
-          <h3 className="text-xl font-semibold mb-2 text-[#004AAE]">
-            {item.name[language]}
-          </h3>
-          <p className="text-[#333333] mb-4">{item.description[language]}</p>
+      <div className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 h-full flex flex-col">
+        <div className="relative">
+          <img
+            src={item.image}
+            alt={item.name[language]}
+            className="w-full h-48 object-cover"
+          />
           {item.options && (
-            <div className="mt-4">
-              <h4 className="font-semibold text-[#004AAE] mb-2">
+            <div className="absolute top-0 right-0 bg-black bg-opacity-70 p-2 rounded-bl-lg">
+              <h4 className="font-semibold text-[#DDC36B] mb-1 text-sm">
                 {language === "en" ? "Options:" : "Opciones:"}
               </h4>
-              <ul className="list-disc list-inside">
+              <ul className="text-[#DDC36B] text-xs">
                 {item.options.map((option, index) => (
-                  <li key={index} className="text-[#333333]">
-                    {option[language]}
-                  </li>
+                  <li key={index}>{option[language]}</li>
                 ))}
               </ul>
             </div>
           )}
+        </div>
+        <div className="p-6 flex-grow flex flex-col justify-between">
+          <div>
+            <h3 className="text-xl font-semibold mb-2 text-[#004AAE]">
+              {item.name[language]}
+            </h3>
+            <p className="text-[#333333]">{item.description[language]}</p>
+          </div>
         </div>
       </div>
     </div>
