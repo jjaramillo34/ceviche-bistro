@@ -7,6 +7,7 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import Catering from "./components/Catering";
 import Gallery from "./components/Gallery";
+import Stats from "./components/Stats";
 
 function App() {
   const [language, setLanguage] = useState("en");
@@ -23,6 +24,7 @@ function App() {
         <About language={language} />
         <Catering language={language} />
         <Menu language={language} />
+        <Stats language={language} />
         <Contact language={language} />
         <Gallery language={language} />
       </main>

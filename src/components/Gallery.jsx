@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import Slider from "react-slick";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -49,28 +48,6 @@ const images = Array.from({ length: 54 }, (_, i) => ({
   comments: Math.floor(Math.random() * 100),
 }));
 
-const PrevArrow = ({ onClick }) => {
-  return (
-    <button
-      className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-white bg-opacity-70 hover:bg-opacity-100 transition-all duration-300 rounded-r-full focus:outline-none"
-      onClick={onClick}
-    >
-      <ChevronLeft size={40} className="text-[#DDC36B]" />
-    </button>
-  );
-};
-
-const NextArrow = ({ onClick }) => {
-  return (
-    <button
-      className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-white bg-opacity-70 hover:bg-opacity-100 transition-all duration-300 rounded-l-full focus:outline-none"
-      onClick={onClick}
-    >
-      <ChevronRight size={40} className="text-[#DDC36B]" />
-    </button>
-  );
-};
-
 const ImageModal = ({ image, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
@@ -99,87 +76,58 @@ const ImageModal = ({ image, onClose }) => {
 };
 
 const Gallery = ({ language }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [modalImage, setModalImage] = useState(null);
-  const [imageOrientations, setImageOrientations] = useState([]);
 
-  useEffect(() => {
-    const loadImages = async () => {
-      const orientations = await Promise.all(
-        images.map(
-          (image) =>
-            new Promise((resolve) => {
-              const img = new Image();
-              img.onload = () => {
-                resolve(img.width > img.height ? "landscape" : "portrait");
-              };
-              img.src = image.src;
-            })
-        )
-      );
-      setImageOrientations(orientations);
-    };
-
-    loadImages();
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
   }, []);
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
+  const prevSlide = useCallback(() => {
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 1 + images.length) % images.length
+    );
+  }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(nextSlide, 3000);
+    return () => clearInterval(intervalId);
+  }, [nextSlide]);
+
+  const visibleImages = [
+    images[(currentIndex - 1 + images.length) % images.length],
+    images[currentIndex],
+    images[(currentIndex + 1) % images.length],
+  ];
 
   return (
-    <section
-      id="gallery"
-      className="py-20 bg-gradient-to-r from-[#F5F5F5] to-[#E0E0E0]"
-    >
+    <section id="gallery" className="py-20 bg-[#DDC36B] opacity-80">
       <div className="container mx-auto px-4">
-        <h2 className="text-5xl font-bold text-center mb-6 text-[#004AAE]">
+        <h2 className="text-5xl font-bold text-center mb-6 text-white">
           {language === "en" ? "Event Highlights" : "Momentos Destacados"}
         </h2>
-        <p className="text-xl text-center mb-12 text-[#333333]">
+        <p className="text-xl text-center mb-12 text-white">
           {language === "en"
             ? "Explore the vibrant moments from our culinary events and social gatherings"
             : "Explora los momentos vibrantes de nuestros eventos culinarios y reuniones sociales"}
         </p>
-        <div className="gallery-slider">
-          <Slider {...settings}>
-            {images.map((image, index) => (
-              <div key={index} className="px-2">
+        <div className="relative">
+          <div className="flex justify-center items-center">
+            {visibleImages.map((image, index) => (
+              <div
+                key={index}
+                className={`w-1/3 px-2 transition-all duration-300 ${
+                  index === 1 ? "scale-110 z-10" : "scale-90 opacity-60"
+                }`}
+              >
                 <div
-                  className="bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105"
+                  className="bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer"
                   onClick={() => setModalImage(image)}
                 >
                   <img
                     src={image.src}
                     alt={image.alt}
-                    className={`w-full ${
-                      imageOrientations[index] === "landscape"
-                        ? "h-64 object-cover"
-                        : "h-96 object-cover"
-                    }`}
+                    className="w-full h-64 object-cover"
                   />
                   <div className="p-4">
                     <p className="text-[#004AAE] text-center font-semibold text-lg mb-2">
@@ -205,7 +153,34 @@ const Gallery = ({ language }) => {
                 </div>
               </div>
             ))}
-          </Slider>
+          </div>
+          <button
+            onClick={prevSlide}
+            className="absolute left-0 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-r-full focus:outline-none hover:bg-opacity-75 transition-all duration-300"
+          >
+            <ChevronLeft size={40} className="text-[#DDC36B]" />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute right-0 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-l-full focus:outline-none hover:bg-opacity-75 transition-all duration-300"
+          >
+            <ChevronRight size={40} className="text-[#DDC36B]" />
+          </button>
+        </div>
+        <div className="flex justify-center mt-8 space-x-2">
+          {[0, 1, 2].map((dot) => (
+            <button
+              key={dot}
+              onClick={() =>
+                setCurrentIndex(
+                  (currentIndex + dot - 1 + images.length) % images.length
+                )
+              }
+              className={`w-3 h-3 rounded-full ${
+                dot === 1 ? "bg-[#DDC36B]" : "bg-white bg-opacity-50"
+              }`}
+            />
+          ))}
         </div>
       </div>
       {modalImage && (
