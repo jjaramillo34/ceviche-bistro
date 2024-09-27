@@ -10,6 +10,7 @@ import Catering from "./components/Catering";
 import Gallery from "./components/Gallery";
 import Stats from "./components/Stats";
 import ScrollNavigation from "./components/ScrollNavigation";
+import PDFMenuViewer from "./components/PDFMenuViewer";
 
 function App() {
   const [language, setLanguage] = useState("en");
@@ -42,6 +43,9 @@ function App() {
         </section>
         <section id="gallery">
           <Gallery language={language} />
+        </section>
+        <section id="pdf-menu">
+          <PDFMenuViewer language={language} />
         </section>
       </main>
       <Footer language={language} />

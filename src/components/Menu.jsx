@@ -44,7 +44,7 @@ const menuItems = [
       en: "Rice with seafood sauce.",
       es: "Arroz con salsa de mariscos.",
     },
-    image: "/path/to/arroz-mariscos.jpg",
+    image: "/img/menu1.png",
   },
   {
     name: { en: "Chaufa Rice", es: "Arroz Chaufa" },
@@ -58,7 +58,7 @@ const menuItems = [
       { en: "Shrimp Chaufa", es: "Chaufa de Camarón" },
       { en: "Mixed Chaufa", es: "Chaufa Mixto" },
     ],
-    image: "/path/to/chaufa.jpg",
+    image: "/img/menu2.png",
   },
   {
     name: { en: "Lomo Saltado", es: "Lomo Saltado" },
@@ -66,7 +66,7 @@ const menuItems = [
       en: "Beef stir-fry with onions, tomatoes, cilantro, soy sauce, and french fries.",
       es: "Carne de res salteada con cebolla, tomate, cilantro, salsa de soya y papas fritas.",
     },
-    image: "/path/to/lomo-saltado.jpg",
+    image: "/img/menu4.png",
   },
   {
     name: { en: "Cylinder-Roasted Pork", es: "Chancho al Cilindro" },
