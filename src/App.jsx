@@ -47,7 +47,7 @@ function App() {
       <Footer language={language} />
       <ScrollNavigation />
       <FloatingWhatsApp
-        phoneNumber="1234567890"
+        phoneNumber="+13478815133"
         accountName="CevicheBistro"
         allowEsc
         allowClickAway
