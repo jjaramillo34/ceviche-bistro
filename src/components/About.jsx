@@ -10,15 +10,46 @@ const About = ({ language }) => {
   const sectionRef = useRef(null);
   const imageRef = useRef(null);
   const contentRef = useRef(null);
+  const missionRef = useRef(null);
+  const featuresRef = useRef(null);
 
   const descriptions = [
     {
-      en: "We are dedicated to bringing the vibrant flavors of Peru to your events through our catering services. Led by Chef John Lopez, our owner and executive chef with years of experience in Peruvian cuisine, we offer everything from elegant buffets to convenient takeout and tasting menus. Whether it's a wedding, anniversary, or corporate event, let us make your gathering unforgettable with our delicious dishes!",
-      es: "Nos dedicamos a llevar los vibrantes sabores del Perú a tus eventos a través de nuestros servicios de catering. Liderados por el chef John Lopez, propietario y chef ejecutivo con años de experiencia en la cocina peruana, ofrecemos desde elegantes buffets hasta comida para llevar y menús de degustación. Ya sea una boda, un aniversario o un evento corporativo, ¡déjanos hacer que tu reunión sea inolvidable con nuestros deliciosos platos!",
+      en: "CevicheBistro is more than just a catering service; it's a culinary journey through the vibrant flavors of Peru. Founded by Chef John Lopez, our company brings authentic Peruvian cuisine to your events, combining traditional recipes with innovative techniques. From intimate gatherings to large-scale corporate events, we offer a range of services tailored to make your experience unforgettable.",
+      es: "CevicheBistro es más que un simple servicio de catering; es un viaje culinario a través de los vibrantes sabores del Perú. Fundada por el Chef John Lopez, nuestra empresa lleva auténtica cocina peruana a tus eventos, combinando recetas tradicionales con técnicas innovadoras. Desde reuniones íntimas hasta eventos corporativos a gran escala, ofrecemos una gama de servicios adaptados para hacer tu experiencia inolvidable.",
     },
     {
-      en: "At our company, we specialize in authentic Peruvian food for every occasion. With Chef John Lopez at the helm, our owner and executive chef, we ensure that every dish reflects years of expertise in Peruvian flavors. From exquisite buffets to delightful tasting experiences, we cater to all events, including parties, weddings, and anniversaries. Join us for a culinary journey that will elevate your celebration!",
-      es: "En nuestra empresa, nos especializamos en ofrecer auténtica comida peruana para cada ocasión. Con el chef John Lopez al mando, nuestro propietario y chef ejecutivo, aseguramos que cada plato refleje años de experiencia en los sabores peruanos. Desde buffets exquisitos hasta experiencias de degustación, atendemos todo tipo de eventos, incluyendo fiestas, bodas y aniversarios. ¡Únete a nosotros en un viaje culinario que elevará tu celebración!",
+      en: "At CevicheBistro, we offer a comprehensive range of catering services designed to meet all your culinary needs. Our offerings include elegant buffets featuring a variety of Peruvian dishes, convenient takeout options for smaller gatherings, and expertly crafted tasting menus that take your guests on a gastronomic tour of Peru. We also provide personalized menu planning, on-site chefs for live cooking demonstrations, and full-service event planning to ensure every detail of your event is perfect.",
+      es: "En CevicheBistro, ofrecemos una gama completa de servicios de catering diseñados para satisfacer todas tus necesidades culinarias. Nuestras ofertas incluyen elegantes buffets con una variedad de platos peruanos, opciones convenientes para llevar para reuniones más pequeñas, y menús de degustación expertamente elaborados que llevan a tus invitados en un tour gastronómico por el Perú. También ofrecemos planificación de menús personalizados, chefs en el lugar para demostraciones de cocina en vivo, y planificación completa de eventos para asegurar que cada detalle de tu evento sea perfecto.",
+    },
+  ];
+
+  const ownerBio = {
+    en: "Chef John Lopez, the heart and soul of CevicheBistro, brings over 20 years of culinary expertise to every dish. Born in Lima, Peru, John's passion for cooking was ignited in his grandmother's kitchen. After honing his skills in renowned restaurants across South America and Europe, John settled in New York, where he dreamed of sharing the authentic flavors of his homeland. With CevicheBistro, he combines his classical training with his deep-rooted love for Peruvian cuisine, creating unforgettable dining experiences for all our clients.",
+    es: "El Chef John Lopez, el corazón y alma de CevicheBistro, aporta más de 20 años de experiencia culinaria a cada plato. Nacido en Lima, Perú, la pasión de John por la cocina se encendió en la cocina de su abuela. Después de perfeccionar sus habilidades en reconocidos restaurantes de Sudamérica y Europa, John se estableció en Nueva York, donde soñaba con compartir los auténticos sabores de su tierra natal. Con CevicheBistro, combina su formación clásica con su profundo amor por la cocina peruana, creando experiencias gastronómicas inolvidables para todos nuestros clientes.",
+  };
+
+  const mission = {
+    en: "Our mission at CevicheBistro is to transport you to the heart of Peru through our food. We are committed to using the freshest, highest-quality ingredients, supporting local suppliers whenever possible, and maintaining the authenticity of our dishes while innovating to meet modern tastes. We aim to not just feed our clients, but to provide them with a cultural experience that celebrates the rich culinary heritage of Peru.",
+    es: "Nuestra misión en CevicheBistro es transportarte al corazón del Perú a través de nuestra comida. Estamos comprometidos a utilizar los ingredientes más frescos y de la más alta calidad, apoyando a proveedores locales siempre que sea posible, y manteniendo la autenticidad de nuestros platos mientras innovamos para satisfacer los gustos modernos. Nuestro objetivo no es solo alimentar a nuestros clientes, sino proporcionarles una experiencia cultural que celebre la rica herencia culinaria del Perú.",
+  };
+
+  const features = [
+    {
+      en: "Authentic Peruvian Flavors",
+      es: "Auténticos Sabores Peruanos",
+    },
+    {
+      en: "Customizable Menus",
+      es: "Menús Personalizables",
+    },
+    {
+      en: "Professional Service",
+      es: "Servicio Profesional",
+    },
+    {
+      en: "Sustainable Practices",
+      es: "Prácticas Sostenibles",
     },
   ];
 
@@ -26,6 +57,8 @@ const About = ({ language }) => {
     const section = sectionRef.current;
     const image = imageRef.current;
     const content = contentRef.current;
+    const missionElement = missionRef.current;
+    const featuresElement = featuresRef.current;
 
     gsap.fromTo(
       image,
@@ -60,13 +93,50 @@ const About = ({ language }) => {
       }
     );
 
+    gsap.fromTo(
+      missionElement,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: missionElement,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse",
+        },
+      }
+    );
+
+    gsap.fromTo(
+      featuresElement.children,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: featuresElement,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none reverse",
+        },
+      }
+    );
+
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
 
   return (
-    <section ref={sectionRef} id="about" className="py-20 bg-[##DDC36B]">
+    <section
+      ref={sectionRef}
+      id="about"
+      className="py-20 bg-gradient-to-b from-[#DDC36B] to-[#F5F5F5]"
+    >
       <div className="container mx-auto px-4">
         <h2 className="text-5xl font-bold text-center mb-4 text-white">
           {language === "en"
@@ -78,7 +148,7 @@ const About = ({ language }) => {
             ? "Experience the passion behind CevicheBistro"
             : "Experimenta la pasión detrás de CevicheBistro"}
         </p>
-        <div className="flex flex-col lg:flex-row items-center bg-white rounded-lg shadow-2xl p-8">
+        <div className="flex flex-col lg:flex-row items-center bg-white rounded-lg shadow-2xl p-8 mb-16">
           <div ref={imageRef} className="lg:w-1/3 mb-8 lg:mb-0">
             <img
               src={ownerImage}
@@ -88,8 +158,13 @@ const About = ({ language }) => {
           </div>
           <div ref={contentRef} className="lg:w-2/3 lg:pl-12">
             <h3 className="text-3xl font-semibold mb-6 text-[#004AAE]">
-              {language === "en" ? "Our Journey" : "Nuestro Viaje"}
+              {language === "en"
+                ? "Meet Chef John Lopez"
+                : "Conoce al Chef John Lopez"}
             </h3>
+            <p className="text-lg mb-6 text-[#333333] leading-relaxed">
+              {ownerBio[language]}
+            </p>
             <div className="mb-6">
               <div className="flex mb-4">
                 <button
@@ -119,17 +194,44 @@ const About = ({ language }) => {
                 </p>
               </div>
             </div>
-            <div className="mt-8">
-              <a
-                href="#menu"
-                className="bg-[#DDC36B] text-[#333333] px-8 py-4 rounded-full text-lg font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 inline-block"
-              >
-                {language === "en"
-                  ? "Explore Our Menu"
-                  : "Explora Nuestro Menú"}
-              </a>
-            </div>
           </div>
+        </div>
+
+        <div
+          ref={missionRef}
+          className="bg-white rounded-lg shadow-2xl p-8 mb-16"
+        >
+          <h3 className="text-3xl font-semibold mb-6 text-[#004AAE] text-center">
+            {language === "en" ? "Our Mission" : "Nuestra Misión"}
+          </h3>
+          <p className="text-lg mb-4 text-[#333333] leading-relaxed">
+            {mission[language]}
+          </p>
+        </div>
+
+        <div
+          ref={featuresRef}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16"
+        >
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-lg shadow-lg p-6 text-center"
+            >
+              <h4 className="text-xl font-semibold mb-4 text-[#004AAE]">
+                {feature[language]}
+              </h4>
+            </div>
+          ))}
+        </div>
+
+        <div className="text-center">
+          <a
+            href="#menu"
+            className="bg-[#DDC36B] text-[#333333] px-8 py-4 rounded-full text-lg font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 inline-block"
+          >
+            {language === "en" ? "Explore Our Menu" : "Explora Nuestro Menú"}
+          </a>
         </div>
       </div>
     </section>

@@ -1,11 +1,13 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Instagram,
   Facebook,
-  ArrowRight,
-  ArrowLeft,
+  Mail,
+  Phone,
+  MapPin,
+  Send,
   QrCode,
 } from "lucide-react";
 import instagramQR from "../assets/img/instagram-qr.png";
@@ -17,6 +19,7 @@ const Contact = ({ language }) => {
   const formRef = useRef(null);
   const infoRef = useRef(null);
   const sectionRef = useRef(null);
+  const [activeQR, setActiveQR] = useState(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -43,6 +46,17 @@ const Contact = ({ language }) => {
           toggleActions: "play none none none",
         },
       });
+
+      // Animate form inputs on focus
+      const inputs = formRef.current.querySelectorAll("input, textarea");
+      inputs.forEach((input) => {
+        input.addEventListener("focus", () => {
+          gsap.to(input, { scale: 1.05, duration: 0.3 });
+        });
+        input.addEventListener("blur", () => {
+          gsap.to(input, { scale: 1, duration: 0.3 });
+        });
+      });
     }, sectionRef);
 
     return () => ctx.revert(); // Cleanup
@@ -52,27 +66,43 @@ const Contact = ({ language }) => {
     e.preventDefault();
     // Handle form submission
     console.log("Form submitted");
+    // You can add a success message or redirect here
   };
 
   const SocialQRCode = ({ platform, icon: Icon, qrCode }) => (
-    <div className="flex items-center space-x-4">
+    <div
+      className="flex items-center space-x-4 cursor-pointer"
+      onClick={() => setActiveQR(activeQR === platform ? null : platform)}
+    >
       <Icon size={24} className="text-[#DDC36B]" />
-      <ArrowRight size={24} className="text-[#DDC36B]" />
+      <span className="text-[#DDC36B]">{platform}</span>
       <QrCode size={24} className="text-[#DDC36B]" />
-      <ArrowLeft size={24} className="text-[#DDC36B]" />
-      <img src={qrCode} alt={`${platform} QR Code`} className="w-24 h-24" />
+      {activeQR === platform && (
+        <img
+          src={qrCode}
+          alt={`${platform} QR Code`}
+          className="w-24 h-24 absolute right-0 top-0 mt-2 mr-2"
+        />
+      )}
     </div>
   );
 
   return (
-    <section ref={sectionRef} id="contact" className="py-16 bg-[#F5F5F5]">
+    <section
+      ref={sectionRef}
+      id="contact"
+      className="py-24 bg-gradient-to-br from-[#004AAE] to-[#001F4D]"
+    >
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-12 text-[#004AAE]">
-          {language === "en" ? "Contact Us" : "Contáctanos"}
+        <h2 className="text-5xl font-bold text-center mb-12 text-white">
+          {language === "en" ? "Get in Touch" : "Contáctanos"}
         </h2>
-        <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
-          <div ref={formRef} className="md:w-1/2 p-8">
-            <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-2xl overflow-hidden">
+          <div ref={formRef} className="lg:w-1/2 p-8">
+            <h3 className="text-3xl font-semibold mb-6 text-[#004AAE]">
+              {language === "en" ? "Send Us a Message" : "Envíanos un Mensaje"}
+            </h3>
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label
                   htmlFor="name"
@@ -84,7 +114,7 @@ const Contact = ({ language }) => {
                   type="text"
                   id="name"
                   name="name"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004AAE]"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004AAE] transition duration-300"
                   required
                 />
               </div>
@@ -99,7 +129,7 @@ const Contact = ({ language }) => {
                   type="email"
                   id="email"
                   name="email"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004AAE]"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004AAE] transition duration-300"
                   required
                 />
               </div>
@@ -114,39 +144,48 @@ const Contact = ({ language }) => {
                   id="message"
                   name="message"
                   rows="4"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004AAE]"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004AAE] transition duration-300"
                   required
                 ></textarea>
               </div>
               <button
                 type="submit"
-                className="bg-[#DDC36B] text-[#333333] px-6 py-3 rounded-full text-lg font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300"
+                className="bg-[#DDC36B] text-[#333333] px-8 py-4 rounded-full text-lg font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 flex items-center justify-center w-full"
               >
+                <Send size={20} className="mr-2" />
                 {language === "en" ? "Send Message" : "Enviar Mensaje"}
               </button>
             </form>
           </div>
           <div
             ref={infoRef}
-            className="md:w-1/2 bg-[#004AAE] text-white p-8 relative overflow-hidden"
+            className="lg:w-1/2 bg-[#004AAE] text-white p-8 relative overflow-hidden"
             style={{
               backgroundImage:
                 "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23DDC36B' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E\")",
             }}
           >
-            <h3 className="text-2xl font-semibold mb-6 text-[#DDC36B]">
-              {language === "en" ? "Find Us" : "Encuéntranos"}
+            <h3 className="text-3xl font-semibold mb-8 text-[#DDC36B]">
+              {language === "en"
+                ? "Contact Information"
+                : "Información de Contacto"}
             </h3>
-            <p className="mb-4">Email: cevichebistro@gmail.com</p>
-            <p className="mb-4">
-              {language === "en" ? "Phone" : "Teléfono"}: 347-881-5133
-            </p>
-            <p className="mb-4">
-              {language === "en" ? "Address" : "Dirección"}: Flushing Park, 111
-              Street, 56th Avenue
-            </p>
-            <div className="mb-6">
-              <h4 className="text-xl font-semibold mb-4 text-[#DDC36B]">
+            <div className="space-y-6">
+              <div className="flex items-center">
+                <Mail size={24} className="text-[#DDC36B] mr-4" />
+                <p>cevichebistro@gmail.com</p>
+              </div>
+              <div className="flex items-center">
+                <Phone size={24} className="text-[#DDC36B] mr-4" />
+                <p>347-881-5133</p>
+              </div>
+              <div className="flex items-center">
+                <MapPin size={24} className="text-[#DDC36B] mr-4" />
+                <p>Flushing Park, 111 Street, 56th Avenue</p>
+              </div>
+            </div>
+            <div className="mt-12">
+              <h4 className="text-2xl font-semibold mb-6 text-[#DDC36B]">
                 {language === "en" ? "Follow Us" : "Síguenos"}
               </h4>
               <div className="space-y-4">
@@ -162,10 +201,10 @@ const Contact = ({ language }) => {
                 />
               </div>
             </div>
-            <p className="text-sm">
+            <p className="text-sm mt-8">
               {language === "en"
-                ? "Scan the QR codes to follow us on social media!"
-                : "¡Escanea los códigos QR para seguirnos en redes sociales!"}
+                ? "Click on the social media icons to reveal QR codes!"
+                : "¡Haz clic en los iconos de redes sociales para revelar los códigos QR!"}
             </p>
           </div>
         </div>
