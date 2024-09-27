@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
 
 const sections = [
-  "hero",
-  "about",
-  "catering",
-  "menu",
-  "stats",
-  "contact",
-  "gallery",
+  { id: "hero", label: "Home" },
+  { id: "about", label: "About" },
+  { id: "catering", label: "Catering" },
+  { id: "menu", label: "Menu" },
+  { id: "stats", label: "Stats" },
+  { id: "contact", label: "Contact" },
+  { id: "gallery", label: "Gallery" },
 ];
 
 const ScrollNavigation = () => {
@@ -20,12 +20,12 @@ const ScrollNavigation = () => {
       const windowHeight = window.innerHeight;
 
       for (let i = sections.length - 1; i >= 0; i--) {
-        const section = document.getElementById(sections[i]);
+        const section = document.getElementById(sections[i].id);
         if (
           section &&
           section.offsetTop - windowHeight / 2 < currentScrollPos
         ) {
-          setActiveSection(sections[i]);
+          setActiveSection(sections[i].id);
           break;
         }
       }
@@ -43,20 +43,26 @@ const ScrollNavigation = () => {
   };
 
   return (
-    <div className="fixed left-4 top-1/2 transform -translate-y-1/2 z-50">
-      <div className="flex flex-col items-center space-y-4">
+    <div className="fixed left-6 top-1/2 transform -translate-y-1/2 z-50">
+      <div className="flex flex-col items-start space-y-6">
         {sections.map((section) => (
-          <div key={section} className="relative">
+          <div key={section.id} className="group relative">
             <div
-              className={`w-3 h-3 rounded-full cursor-pointer ${
-                activeSection === section ? "bg-[#DDC36B]" : "bg-gray-300"
-              }`}
-              onClick={() => scrollToSection(section)}
+              className={`w-5 h-5 rounded-full cursor-pointer transition-all duration-300 ease-in-out
+                ${
+                  activeSection === section.id
+                    ? "bg-[#DDC36B] scale-125"
+                    : "bg-gray-300 hover:bg-[#DDC36B] hover:scale-110"
+                }`}
+              onClick={() => scrollToSection(section.id)}
             />
-            {activeSection === section && (
+            <span className="absolute left-8 top-1/2 transform -translate-y-1/2 bg-[#DDC36B] text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+              {section.label}
+            </span>
+            {activeSection === section.id && (
               <ChevronRight
                 size={24}
-                className="text-[#DDC36B] absolute -right-6 top-1/2 transform -translate-y-1/2"
+                className="text-[#DDC36B] absolute -right-6 top-1/2 transform -translate-y-1/2 transition-all duration-300 ease-in-out"
               />
             )}
           </div>

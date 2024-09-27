@@ -10,33 +10,88 @@ gsap.registerPlugin(ScrollTrigger);
 
 const menuItems = [
   {
-    name: { en: "Classic Ceviche", es: "Ceviche Clásico" },
+    name: { en: "Ceviche", es: "Ceviche" },
     description: {
-      en: "Fresh white fish marinated in lime juice, mixed with red onions, cilantro, and a touch of chili.",
-      es: "Pescado blanco fresco marinado en jugo de limón, mezclado con cebollas rojas, cilantro y un toque de chile.",
+      en: "Fresh fish marinated in tiger's milk, with onions, cilantro, seafood, and chili.",
+      es: "Pescado fresco marinado en leche de tigre, con cebollas, cilantro, mariscos y ají.",
     },
-    price: 12.99,
-    image: "/path/to/classic-ceviche.jpg", // Add actual image paths
+    options: [
+      { en: "Fish Ceviche", es: "Ceviche de Pescado" },
+      { en: "Mixed Ceviche", es: "Ceviche Mixto" },
+      { en: "Shrimp Ceviche", es: "Ceviche de Camarones" },
+    ],
+    image: "/path/to/ceviche.jpg",
   },
   {
-    name: { en: "Shrimp Aguachile", es: "Aguachile de Camarón" },
+    name: { en: "Goat Stew with Beans", es: "Seco de Cabrito con Frejoles" },
     description: {
-      en: "Tender shrimp in a spicy lime and cucumber sauce, topped with red onions and avocado.",
-      es: "Camarones tiernos en una salsa picante de limón y pepino, cubiertos con cebollas rojas y aguacate.",
+      en: "White rice, goat stew, canary beans, Creole salsa.",
+      es: "Arroz blanco, seco de cabrito, frejoles canarios, sarza criolla.",
     },
-    price: 14.99,
-    image: "/path/to/shrimp-aguachile.jpg",
+    image: "/path/to/seco-cabrito.jpg",
   },
   {
-    name: { en: "Octopus Ceviche", es: "Ceviche de Pulpo" },
+    name: { en: "Duck with Rice", es: "Arroz con Pato" },
     description: {
-      en: "Tender octopus chunks marinated in a zesty citrus blend, mixed with bell peppers and olives.",
-      es: "Trozos de pulpo tierno marinados en una mezcla cítrica, mezclados con pimientos y aceitunas.",
+      en: "Northern style duck with rice, huancaina potatoes, Creole salsa.",
+      es: "Arroz con pato estilo norteño, papa a la huancaína, sarza criolla.",
     },
-    price: 16.99,
-    image: "/path/to/octopus-ceviche.jpg",
+    image: "/path/to/arroz-pato.jpg",
   },
-  // Add more menu items as needed
+  {
+    name: { en: "Seafood Rice", es: "Arroz con Mariscos" },
+    description: {
+      en: "Rice with seafood sauce.",
+      es: "Arroz con salsa de mariscos.",
+    },
+    image: "/path/to/arroz-mariscos.jpg",
+  },
+  {
+    name: { en: "Chaufa Rice", es: "Arroz Chaufa" },
+    description: {
+      en: "Peruvian-style fried rice.",
+      es: "Arroz frito estilo peruano.",
+    },
+    options: [
+      { en: "Chicken Chaufa", es: "Chaufa de Pollo" },
+      { en: "Beef Chaufa", es: "Chaufa de Carne" },
+      { en: "Shrimp Chaufa", es: "Chaufa de Camarón" },
+      { en: "Mixed Chaufa", es: "Chaufa Mixto" },
+    ],
+    image: "/path/to/chaufa.jpg",
+  },
+  {
+    name: { en: "Lomo Saltado", es: "Lomo Saltado" },
+    description: {
+      en: "Beef stir-fry with onions, tomatoes, cilantro, soy sauce, and french fries.",
+      es: "Carne de res salteada con cebolla, tomate, cilantro, salsa de soya y papas fritas.",
+    },
+    image: "/path/to/lomo-saltado.jpg",
+  },
+  {
+    name: { en: "Cylinder-Roasted Pork", es: "Chancho al Cilindro" },
+    description: {
+      en: "Marinated pork belly cooked over charcoal.",
+      es: "Panceta de cerdo marinada y cocinada al carbón.",
+    },
+    image: "/path/to/chancho-cilindro.jpg",
+  },
+  {
+    name: { en: "Quinoa Chaufa", es: "Arroz Chaufa de Quinoa" },
+    description: {
+      en: "Mixed vegetables, white and red quinoa in marinated chaufa style.",
+      es: "Mix de vegetales, mix de quinoa blanca y roja en chaufa marinada.",
+    },
+    image: "/path/to/chaufa-quinoa.jpg",
+  },
+  {
+    name: { en: "Aji de Gallina", es: "Ají de Gallina" },
+    description: {
+      en: "Chicken breast, yellow chili, white rice, boiled potatoes, egg.",
+      es: "Pecho de pollo, ají amarillo, arroz blanco, papas sancochadas, huevo.",
+    },
+    image: "/path/to/aji-gallina.jpg",
+  },
 ];
 
 const MenuItem = ({ item, language }) => {
@@ -57,7 +112,7 @@ const MenuItem = ({ item, language }) => {
 
   return (
     <div ref={cardRef} className="px-4">
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105">
+      <div className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 h-full">
         <img
           src={item.image}
           alt={item.name[language]}
@@ -67,12 +122,21 @@ const MenuItem = ({ item, language }) => {
           <h3 className="text-xl font-semibold mb-2 text-[#004AAE]">
             {item.name[language]}
           </h3>
-          <p className="text-[#333333] mb-4 h-24 overflow-y-auto">
-            {item.description[language]}
-          </p>
-          <span className="text-[#DDC36B] font-bold text-lg">
-            ${item.price.toFixed(2)}
-          </span>
+          <p className="text-[#333333] mb-4">{item.description[language]}</p>
+          {item.options && (
+            <div className="mt-4">
+              <h4 className="font-semibold text-[#004AAE] mb-2">
+                {language === "en" ? "Options:" : "Opciones:"}
+              </h4>
+              <ul className="list-disc list-inside">
+                {item.options.map((option, index) => (
+                  <li key={index} className="text-[#333333]">
+                    {option[language]}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </div>

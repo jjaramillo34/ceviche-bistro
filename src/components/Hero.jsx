@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 import { TextPlugin } from "gsap/TextPlugin";
 import { useGSAP } from "@gsap/react";
 import heroVideo from "/img/video.mp4";
-import heroImage from "/img/hero-image.jpg";
+import heroImage from "/img/hero-image1.jpg";
 
 gsap.registerPlugin(TextPlugin);
 
