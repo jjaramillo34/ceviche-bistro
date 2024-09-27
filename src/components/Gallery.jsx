@@ -1,16 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
-// Assuming you have these images in your project
-const images = [
-  { src: "/path/to/image1.jpg", alt: "Friends enjoying ceviche" },
-  { src: "/path/to/image2.jpg", alt: "Family gathering" },
-  { src: "/path/to/image3.jpg", alt: "Catering event" },
-  { src: "/path/to/image4.jpg", alt: "Food preparation" },
-  { src: "/path/to/image5.jpg", alt: "Restaurant ambiance" },
-  // Add more images as needed
+const foodThemes = [
+  "Ceviche Fiesta",
+  "Seafood Symphony",
+  "Zesty Lime Delight",
+  "Ocean's Bounty",
+  "Peruvian Palette",
+  "Cilantro Dreams",
+  "Mango Tango Ceviche",
+  "Spicy Shrimp Sensation",
+  "Tropical Fish Medley",
+  "Avocado Abundance",
+  "Crunchy Corn Companion",
+  "Citrus Splash",
+  "Red Onion Rhapsody",
+  "Tuna Tartare Temptation",
+  "Octopus Odyssey",
+  "Tiradito Triumph",
+  "Leche de Tigre Elixir",
+  "Ceviche Mixto Madness",
+  "Aji Amarillo Adventure",
+  "Rocoto Pepper Punch",
+  "Choclo Charm",
+  "Cancha Crunch",
+  "Yuca Yumminess",
+  "Plantain Paradise",
+  "Pisco Sour Pairing",
+  "Chicha Morada Magic",
+  "Inca Kola Inspiration",
+  "Ceviche by the Sea",
+  "Lima Nights",
 ];
+
+const images = Array.from({ length: 29 }, (_, i) => ({
+  src: `/img/image${i + 1}.jpeg`,
+  alt: foodThemes[i] || `Ceviche Bistro Experience ${i + 1}`,
+}));
 
 const PrevArrow = ({ className, onClick }) => {
   return (
@@ -34,7 +61,50 @@ const NextArrow = ({ className, onClick }) => {
   );
 };
 
+const ImageModal = ({ image, onClose }) => {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+      <div className="relative max-w-4xl max-h-[90vh] w-full">
+        <img
+          src={image.src}
+          alt={image.alt}
+          className="w-full h-full object-contain"
+        />
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-white hover:text-gray-300"
+        >
+          <X size={24} />
+        </button>
+      </div>
+    </div>
+  );
+};
+
 const Gallery = ({ language }) => {
+  const [modalImage, setModalImage] = useState(null);
+  const [imageOrientations, setImageOrientations] = useState([]);
+
+  useEffect(() => {
+    const loadImages = async () => {
+      const orientations = await Promise.all(
+        images.map(
+          (image) =>
+            new Promise((resolve) => {
+              const img = new Image();
+              img.onload = () => {
+                resolve(img.width > img.height ? "landscape" : "portrait");
+              };
+              img.src = image.src;
+            })
+        )
+      );
+      setImageOrientations(orientations);
+    };
+
+    loadImages();
+  }, []);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -67,20 +137,31 @@ const Gallery = ({ language }) => {
     <section id="gallery" className="py-16 bg-[#F5F5F5]">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-center mb-12 text-[#004AAE]">
-          {language === "en" ? "Our Gallery" : "Nuestra Galería"}
+          {language === "en"
+            ? "Our Culinary Journey"
+            : "Nuestro Viaje Culinario"}
         </h2>
         <div className="gallery-slider">
           <Slider {...settings}>
             {images.map((image, index) => (
               <div key={index} className="px-2">
-                <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div
+                  className="bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer"
+                  onClick={() => setModalImage(image)}
+                >
                   <img
                     src={image.src}
                     alt={image.alt}
-                    className="w-full h-64 object-cover"
+                    className={`w-full ${
+                      imageOrientations[index] === "landscape"
+                        ? "h-64 object-cover"
+                        : "h-96 object-contain"
+                    }`}
                   />
                   <div className="p-4">
-                    <p className="text-[#333333] text-center">{image.alt}</p>
+                    <p className="text-[#333333] text-center font-semibold">
+                      {image.alt}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -88,6 +169,9 @@ const Gallery = ({ language }) => {
           </Slider>
         </div>
       </div>
+      {modalImage && (
+        <ImageModal image={modalImage} onClose={() => setModalImage(null)} />
+      )}
     </section>
   );
 };

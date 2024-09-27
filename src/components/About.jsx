@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import ownerImage from "../assets/img/john.jpg";
+import ownerImage from "/img/john.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -66,48 +66,55 @@ const About = ({ language }) => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="about" className="py-20 bg-[#F5F5F5]">
+    <section ref={sectionRef} id="about" className="py-20 bg-[##DDC36B]">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-12 text-[#004AAE]">
-          {language === "en" ? "About CevicheBistro" : "Sobre CevicheBistro"}
+        <h2 className="text-5xl font-bold text-center mb-4 text-white">
+          {language === "en"
+            ? "Discover Our Story"
+            : "Descubre Nuestra Historia"}
         </h2>
-        <div className="flex flex-col lg:flex-row items-center">
+        <p className="text-xl text-center mb-12 text-white">
+          {language === "en"
+            ? "Experience the passion behind CevicheBistro"
+            : "Experimenta la pasión detrás de CevicheBistro"}
+        </p>
+        <div className="flex flex-col lg:flex-row items-center bg-white rounded-lg shadow-2xl p-8">
           <div ref={imageRef} className="lg:w-1/3 mb-8 lg:mb-0">
             <img
               src={ownerImage}
               alt="Chef John Lopez - Owner of CevicheBistro"
-              className="rounded-lg shadow-2xl transform hover:scale-105 transition duration-300"
+              className="rounded-lg shadow-xl transform hover:scale-105 transition duration-300"
             />
           </div>
           <div ref={contentRef} className="lg:w-2/3 lg:pl-12">
-            <h3 className="text-2xl font-semibold mb-4 text-[#DDC36B]">
-              {language === "en" ? "Our Story" : "Nuestra Historia"}
+            <h3 className="text-3xl font-semibold mb-6 text-[#004AAE]">
+              {language === "en" ? "Our Journey" : "Nuestro Viaje"}
             </h3>
             <div className="mb-6">
               <div className="flex mb-4">
                 <button
                   onClick={() => setActiveTab(0)}
-                  className={`px-4 py-2 mr-2 rounded-t-lg ${
+                  className={`px-6 py-3 mr-2 rounded-t-lg font-semibold transition duration-300 ${
                     activeTab === 0
                       ? "bg-[#004AAE] text-white"
-                      : "bg-gray-200 text-[#333333]"
+                      : "bg-gray-200 text-[#333333] hover:bg-[#DDC36B] hover:text-white"
                   }`}
                 >
                   {language === "en" ? "Who We Are" : "Quiénes Somos"}
                 </button>
                 <button
                   onClick={() => setActiveTab(1)}
-                  className={`px-4 py-2 rounded-t-lg ${
+                  className={`px-6 py-3 rounded-t-lg font-semibold transition duration-300 ${
                     activeTab === 1
                       ? "bg-[#004AAE] text-white"
-                      : "bg-gray-200 text-[#333333]"
+                      : "bg-gray-200 text-[#333333] hover:bg-[#DDC36B] hover:text-white"
                   }`}
                 >
                   {language === "en" ? "What We Offer" : "Qué Ofrecemos"}
                 </button>
               </div>
-              <div className="bg-white p-6 rounded-b-lg rounded-tr-lg shadow-md">
-                <p className="text-lg mb-4 text-[#333333]">
+              <div className="bg-[#F5F5F5] p-6 rounded-b-lg rounded-tr-lg shadow-md">
+                <p className="text-lg mb-4 text-[#333333] leading-relaxed">
                   {descriptions[activeTab][language]}
                 </p>
               </div>
@@ -115,7 +122,7 @@ const About = ({ language }) => {
             <div className="mt-8">
               <a
                 href="#menu"
-                className="bg-[#DDC36B] text-[#333333] px-6 py-3 rounded-full text-lg font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 inline-block"
+                className="bg-[#DDC36B] text-[#333333] px-8 py-4 rounded-full text-lg font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 inline-block"
               >
                 {language === "en"
                   ? "Explore Our Menu"
