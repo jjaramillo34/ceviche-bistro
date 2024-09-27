@@ -1,10 +1,11 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { gsap } from "gsap";
 import { TextPlugin } from "gsap/TextPlugin";
 import { useGSAP } from "@gsap/react";
 import heroVideo from "/img/video.mp4";
 import heroImage from "/img/hero-image1.jpg";
+import PDFMenuViewer from "./PDFMenuViewer"; // Make sure to create this component
 
 gsap.registerPlugin(TextPlugin);
 
@@ -13,6 +14,7 @@ const Hero = ({ language }) => {
   const videoRef = useRef();
   const titleRef = useRef();
   const descriptionRef = useRef();
+  const [isPDFOpen, setIsPDFOpen] = useState(false);
 
   useGSAP(
     () => {
@@ -29,8 +31,8 @@ const Hero = ({ language }) => {
           "-=0.6"
         )
         .from(
-          heroRef.current.querySelector("a"),
-          { opacity: 0, y: 20, duration: 0.8 },
+          heroRef.current.querySelectorAll(".hero-button"),
+          { opacity: 0, y: 20, duration: 0.8, stagger: 0.2 },
           "-=0.6"
         )
         .from(
@@ -97,12 +99,20 @@ const Hero = ({ language }) => {
           ref={descriptionRef}
           className="text-2xl mb-10 max-w-2xl mx-auto text-[#F5F5F5]"
         ></p>
-        <a
-          href="#menu"
-          className="bg-[#DDC36B] text-[#333333] px-8 py-4 rounded-full text-xl font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 inline-block"
-        >
-          {language === "en" ? "Explore Our Menu" : "Explora Nuestro Menú"}
-        </a>
+        <div className="flex justify-center space-x-4">
+          <a
+            href="#menu"
+            className="hero-button bg-[#DDC36B] text-[#333333] px-8 py-4 rounded-full text-xl font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 inline-block"
+          >
+            {language === "en" ? "Explore Our Menu" : "Explora Nuestro Menú"}
+          </a>
+          <button
+            onClick={() => setIsPDFOpen(true)}
+            className="hero-button bg-white text-[#004AAE] px-8 py-4 rounded-full text-xl font-semibold hover:bg-[#DDC36B] hover:text-[#333333] transition duration-300 inline-block"
+          >
+            {language === "en" ? "View Full Menu PDF" : "Ver Menú Completo PDF"}
+          </button>
+        </div>
       </div>
       <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 scroll-indicator">
         <div className="animate-bounce">
@@ -119,9 +129,16 @@ const Hero = ({ language }) => {
           </svg>
         </div>
       </div>
+      {isPDFOpen && (
+        <PDFMenuViewer
+          language={language}
+          onClose={() => setIsPDFOpen(false)}
+        />
+      )}
     </section>
   );
 };
+
 Hero.propTypes = {
   language: PropTypes.string.isRequired,
 };

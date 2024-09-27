@@ -44,9 +44,6 @@ function App() {
         <section id="gallery">
           <Gallery language={language} />
         </section>
-        <section id="pdf-menu">
-          <PDFMenuViewer language={language} />
-        </section>
       </main>
       <Footer language={language} />
       <ScrollNavigation />
