@@ -10,8 +10,8 @@ import {
   Send,
   QrCode,
 } from "lucide-react";
-import instagramQR from "../assets/img/instagram-qr.png";
-import facebookQR from "../assets/img/facebook-qr.png";
+import instagramQR from "/img/instagram-qr.png";
+import facebookQR from "/img/facebook-qr.png";
 
 gsap.registerPlugin(ScrollTrigger);
 

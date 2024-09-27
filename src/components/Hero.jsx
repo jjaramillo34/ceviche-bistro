@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { gsap } from "gsap";
 import { TextPlugin } from "gsap/TextPlugin";
 import { useGSAP } from "@gsap/react";
-import heroVideo from "../assets/img/video.mp4";
-import heroImage from "../assets/img/hero-image.jpg";
+import heroVideo from "/img/video.mp4";
+import heroImage from "/img/hero-image.jpg";
 
 gsap.registerPlugin(TextPlugin);
 

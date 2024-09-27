@@ -1,8 +1,8 @@
 import React from "react";
-import logoFooter from "../assets/img/logo.png";
+import logoFooter from "/img/logo.png";
 import { Instagram, Facebook, Mail, Phone, MapPin } from "lucide-react";
-import instagramQR from "../assets/img/instagram-qr.png";
-import facebookQR from "../assets/img/facebook-qr.png";
+import instagramQR from "/img/instagram-qr.png";
+import facebookQR from "/img/facebook-qr.png";
 
 const SocialQRCode = ({ platform, icon: Icon, qrCode }) => (
   <div className="flex items-center space-x-2">
