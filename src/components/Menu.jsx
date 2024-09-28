@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -103,6 +104,54 @@ const menuItems = [
   },
 ];
 
+const AnimatedTitle = ({ children, className }) => {
+  const titleRef = useRef(null);
+  const lineLeftRef = useRef(null);
+  const lineRightRef = useRef(null);
+
+  useEffect(() => {
+    gsap.from(titleRef.current, {
+      opacity: 0,
+      y: -30,
+      duration: 0.8,
+      ease: "power3.out",
+    });
+
+    gsap.from([lineLeftRef.current, lineRightRef.current], {
+      width: 0,
+      duration: 0.6,
+      delay: 0.4,
+      ease: "power2.inOut",
+    });
+  }, []);
+
+  return (
+    <div className={`relative text-center ${className}`}>
+      <h2
+        ref={titleRef}
+        className="text-3xl sm:text-4xl md:text-5xl font-bold inline-block px-4 relative"
+      >
+        {children}
+        <span
+          ref={lineLeftRef}
+          className="absolute left-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform -translate-x-full"
+          style={{ width: "50px" }}
+        ></span>
+        <span
+          ref={lineRightRef}
+          className="absolute right-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform translate-x-full"
+          style={{ width: "50px" }}
+        ></span>
+      </h2>
+    </div>
+  );
+};
+
+AnimatedTitle.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+};
+
 const MenuItem = ({ item, language }) => {
   const cardRef = useRef(null);
 
@@ -154,6 +203,27 @@ const MenuItem = ({ item, language }) => {
   );
 };
 
+MenuItem.propTypes = {
+  item: PropTypes.shape({
+    name: PropTypes.shape({
+      en: PropTypes.string.isRequired,
+      es: PropTypes.string.isRequired,
+    }).isRequired,
+    description: PropTypes.shape({
+      en: PropTypes.string.isRequired,
+      es: PropTypes.string.isRequired,
+    }).isRequired,
+    options: PropTypes.arrayOf(
+      PropTypes.shape({
+        en: PropTypes.string.isRequired,
+        es: PropTypes.string.isRequired,
+      })
+    ),
+    image: PropTypes.string.isRequired,
+  }).isRequired,
+  language: PropTypes.oneOf(["en", "es"]).isRequired,
+};
+
 const NextArrow = ({ onClick }) => (
   <button
     onClick={onClick}
@@ -164,6 +234,10 @@ const NextArrow = ({ onClick }) => (
   </button>
 );
 
+NextArrow.propTypes = {
+  onClick: PropTypes.func,
+};
+
 const PrevArrow = ({ onClick }) => (
   <button
     onClick={onClick}
@@ -173,6 +247,10 @@ const PrevArrow = ({ onClick }) => (
     <ChevronLeft size={40} className="text-[#FFD700]" />
   </button>
 );
+
+PrevArrow.propTypes = {
+  onClick: PropTypes.func,
+};
 
 const PDFMenuViewer = ({ language, onClose }) => {
   const [numPages, setNumPages] = useState(null);
@@ -232,22 +310,13 @@ const PDFMenuViewer = ({ language, onClose }) => {
   );
 };
 
-const Menu = ({ language }) => {
-  const titleRef = useRef(null);
-  const [isPDFOpen, setIsPDFOpen] = useState(false);
+PDFMenuViewer.propTypes = {
+  language: PropTypes.oneOf(["en", "es"]).isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
-  useEffect(() => {
-    gsap.from(titleRef.current, {
-      y: -50,
-      opacity: 0,
-      duration: 1,
-      scrollTrigger: {
-        trigger: titleRef.current,
-        start: "top bottom-=100",
-        toggleActions: "play none none reverse",
-      },
-    });
-  }, []);
+const Menu = ({ language }) => {
+  const [isPDFOpen, setIsPDFOpen] = useState(false);
 
   const settings = {
     dots: true,
@@ -283,13 +352,9 @@ const Menu = ({ language }) => {
       className="py-24 bg-gradient-to-r from-[#E6F7FF] via-[#F0F8FF] to-[#E6F7FF]"
     >
       <div className="container mx-auto px-4">
-        <h2
-          ref={titleRef}
-          className="text-5xl font-bold text-center mb-16 text-[#004AAE] relative"
-        >
+        <AnimatedTitle className="mb-16 text-[#004AAE]">
           {language === "en" ? "Our Menu" : "Nuestro Menú"}
-          <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-[#FFD700]"></span>
-        </h2>
+        </AnimatedTitle>
         <div className="relative px-12">
           <Slider {...settings} className="menu-slider">
             {menuItems.map((item, index) => (
@@ -300,7 +365,8 @@ const Menu = ({ language }) => {
         <div className="text-center mt-12">
           <button
             onClick={() => setIsPDFOpen(true)}
-            className="bg-[#FFD700] text-[#333333] px-6 py-3 rounded-full text-xl font-semibold hover:bg-[#C4A95D] transition-colors duration-300 flex items-center mx-auto"
+            className="bg-[#FFD700] text-[#333333] px-6 py-3 rounded-full text-xl font-semibold hover:bg-[#C4A95D]
+             transition-colors duration-300 flex items-center mx-auto"
           >
             <FileText size={24} className="mr-2" />
             {language === "en" ? "View Full Menu PDF" : "Ver Menú Completo PDF"}
@@ -315,6 +381,10 @@ const Menu = ({ language }) => {
       )}
     </section>
   );
+};
+
+Menu.propTypes = {
+  language: PropTypes.oneOf(["en", "es"]).isRequired,
 };
 
 export default Menu;
