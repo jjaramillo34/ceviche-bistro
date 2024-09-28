@@ -168,7 +168,7 @@ const Gallery = ({ language }) => {
   return (
     <section
       id="gallery"
-      className="py-20 bg-gradient-to-b from-[#DDC36B] to-[#F5F5F5]"
+      className="py-20 bg-gradient-to-b from-[#FFD700] to-[#F5F5F5]"
     >
       <div className="container mx-auto px-4">
         <h2 className="text-5xl font-bold text-center mb-6 text-white">
@@ -205,7 +205,7 @@ const Gallery = ({ language }) => {
                 />
                 <div
                   className={`absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent ${
-                    index === currentIndex ? "text-[#DDC36B]" : "text-white"
+                    index === currentIndex ? "text-[#FFD700]" : "text-white"
                   }`}
                 >
                   <p className="text-center font-semibold text-lg mb-2">

@@ -33,7 +33,7 @@ const Footer = ({ language }) => {
 
           {/* Column 2: Quick Links */}
           <div>
-            <h3 className="text-xl font-semibold mb-4 text-[#DDC36B]">
+            <h3 className="text-xl font-semibold mb-4 text-[#FFD700]">
               {language === "en" ? "Quick Links" : "Enlaces Rápidos"}
             </h3>
             <ul className="space-y-2">
@@ -47,7 +47,7 @@ const Footer = ({ language }) => {
                 <li key={index}>
                   <a
                     href={`#${item.toLowerCase().replace(/\s+/g, "")}`}
-                    className="hover:text-[#DDC36B] transition duration-300"
+                    className="hover:text-[#FFD700] transition duration-300"
                   >
                     {language === "en"
                       ? item
@@ -66,7 +66,7 @@ const Footer = ({ language }) => {
 
           {/* Column 3: Contact Information */}
           <div>
-            <h3 className="text-xl font-semibold mb-4 text-[#DDC36B]">
+            <h3 className="text-xl font-semibold mb-4 text-[#FFD700]">
               {language === "en" ? "Contact Us" : "Contáctanos"}
             </h3>
             <ul className="space-y-2">
@@ -87,7 +87,7 @@ const Footer = ({ language }) => {
 
           {/* Column 4: Social Media */}
           <div>
-            <h3 className="text-xl font-semibold mb-4 text-[#DDC36B]">
+            <h3 className="text-xl font-semibold mb-4 text-[#FFD700]">
               {language === "en" ? "Follow Us" : "Síguenos"}
             </h3>
             <div className="space-y-4">
@@ -111,7 +111,7 @@ const Footer = ({ language }) => {
         </div>
 
         {/* Copyright */}
-        <div className="mt-12 pt-8 border-t border-[#DDC36B] text-center">
+        <div className="mt-12 pt-8 border-t border-[#FFD700] text-center">
           <p className="text-[#F5F5F5]">
             &copy; {new Date().getFullYear()} CevicheBistro.{" "}
             {language === "en"

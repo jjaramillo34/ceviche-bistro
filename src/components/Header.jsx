@@ -69,7 +69,7 @@ const Header = ({ language, toggleLanguage }) => {
                   toggleLanguage();
                   setIsMenuOpen(false);
                 }}
-                className="flex items-center space-x-2 bg-[#DDC36B] text-white px-3 py-2 rounded-full hover:bg-[#0066CC] transition duration-300"
+                className="flex items-center space-x-2 bg-[#FFD700] text-white px-3 py-2 rounded-full hover:bg-[#0066CC] transition duration-300"
               >
                 <Globe size={18} />
                 <span>{language === "en" ? "ES" : "EN"}</span>

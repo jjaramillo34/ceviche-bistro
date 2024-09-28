@@ -22,7 +22,7 @@ const PDFMenuViewer = ({ language }) => {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="bg-[#DDC36B] text-white px-6 py-2 rounded-full hover:bg-[#004AAE] transition duration-300"
+        className="bg-[#FFD700] text-white px-6 py-2 rounded-full hover:bg-[#004AAE] transition duration-300"
       >
         {language === "en" ? "See Full Menu" : "Ver Menú Completo"}
       </button>
@@ -36,7 +36,7 @@ const PDFMenuViewer = ({ language }) => {
               </h2>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-[#004AAE] hover:text-[#DDC36B]"
+                className="text-[#004AAE] hover:text-[#FFD700]"
               >
                 ✕
               </button>

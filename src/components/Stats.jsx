@@ -51,7 +51,7 @@ const StatCard = ({ icon: Icon, value, label, language }) => {
       ref={cardRef}
       className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center transform transition-all duration-300 hover:scale-105"
     >
-      <Icon size={40} className="text-[#DDC36B] mb-4" aria-hidden="true" />
+      <Icon size={40} className="text-[#FFD700] mb-4" aria-hidden="true" />
       <p className="text-4xl font-bold text-[#004AAE] mb-2">
         <span ref={numberRef} aria-live="polite">
           {value}

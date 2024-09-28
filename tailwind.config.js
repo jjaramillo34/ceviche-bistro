@@ -4,7 +4,7 @@ module.exports = {
     extend: {
       colors: {
         "ceviche-blue": "#004AAE",
-        "ceviche-gold": "#DDC36B",
+        "ceviche-gold": "#FFD700",
         "ceviche-dark": "#333333",
         "ceviche-light": "#F5F5F5",
       },

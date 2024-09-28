@@ -74,9 +74,9 @@ const Contact = ({ language }) => {
       className="flex items-center space-x-4 cursor-pointer"
       onClick={() => setActiveQR(activeQR === platform ? null : platform)}
     >
-      <Icon size={24} className="text-[#DDC36B]" />
-      <span className="text-[#DDC36B]">{platform}</span>
-      <QrCode size={24} className="text-[#DDC36B]" />
+      <Icon size={24} className="text-[#FFD700]" />
+      <span className="text-[#FFD700]">{platform}</span>
+      <QrCode size={24} className="text-[#FFD700]" />
       {activeQR === platform && (
         <img
           src={qrCode}
@@ -150,7 +150,7 @@ const Contact = ({ language }) => {
               </div>
               <button
                 type="submit"
-                className="bg-[#DDC36B] text-[#333333] px-8 py-4 rounded-full text-lg font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 flex items-center justify-center w-full"
+                className="bg-[#FFD700] text-[#333333] px-8 py-4 rounded-full text-lg font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 flex items-center justify-center w-full"
               >
                 <Send size={20} className="mr-2" />
                 {language === "en" ? "Send Message" : "Enviar Mensaje"}
@@ -165,14 +165,14 @@ const Contact = ({ language }) => {
                 "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23DDC36B' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E\")",
             }}
           >
-            <h3 className="text-3xl font-semibold mb-8 text-[#DDC36B]">
+            <h3 className="text-3xl font-semibold mb-8 text-[#FFD700]">
               {language === "en"
                 ? "Contact Information"
                 : "Información de Contacto"}
             </h3>
             <div className="space-y-6">
               <div className="flex items-center">
-                <Mail size={24} className="text-[#DDC36B] mr-4" />
+                <Mail size={24} className="text-[#FFD700] mr-4" />
                 <a
                   href="mailto:cevichebistronyc@gmail.com"
                   className="hover:underline"
@@ -185,16 +185,16 @@ const Contact = ({ language }) => {
                 </a>
               </div>
               <div className="flex items-center">
-                <Phone size={24} className="text-[#DDC36B] mr-4" />
+                <Phone size={24} className="text-[#FFD700] mr-4" />
                 <p>347-881-5133</p>
               </div>
               <div className="flex items-center">
-                <MapPin size={24} className="text-[#DDC36B] mr-4" />
+                <MapPin size={24} className="text-[#FFD700] mr-4" />
                 <p>Flushing Park, 111 Street, 56th Avenue</p>
               </div>
             </div>
             <div className="mt-12">
-              <h4 className="text-2xl font-semibold mb-6 text-[#DDC36B]">
+              <h4 className="text-2xl font-semibold mb-6 text-[#FFD700]">
                 {language === "en" ? "Follow Us" : "Síguenos"}
               </h4>
               <div className="space-y-4">

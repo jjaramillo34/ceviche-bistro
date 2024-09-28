@@ -137,7 +137,7 @@ const About = ({ language }) => {
     <section
       ref={sectionRef}
       id="about"
-      className="py-20 bg-gradient-to-b from-[#DDC36B] to-[#F5F5F5]"
+      className="py-20 bg-gradient-to-b from-[#FFD700] to-[#F5F5F5]"
     >
       <div className="container mx-auto px-4">
         <h2 className="text-5xl font-bold text-center mb-4 text-white relative pb-6">
@@ -176,7 +176,7 @@ const About = ({ language }) => {
                     className={`px-6 py-3 mr-2 rounded-t-lg font-semibold transition duration-300 ${
                       activeTab === "who-we-are"
                         ? "bg-[#004AAE] text-white"
-                        : "bg-gray-200 text-[#333333] hover:bg-[#DDC36B] hover:text-white"
+                        : "bg-gray-200 text-[#333333] hover:bg-[#FFD700] hover:text-white"
                     }`}
                   >
                     {language === "en" ? "Who We Are" : "Quiénes Somos"}
@@ -186,7 +186,7 @@ const About = ({ language }) => {
                     className={`px-6 py-3 rounded-t-lg font-semibold transition duration-300 ${
                       activeTab === "what-we-offer"
                         ? "bg-[#004AAE] text-white"
-                        : "bg-gray-200 text-[#333333] hover:bg-[#DDC36B] hover:text-white"
+                        : "bg-gray-200 text-[#333333] hover:bg-[#FFD700] hover:text-white"
                     }`}
                   >
                     {language === "en" ? "What We Offer" : "Qué Ofrecemos"}
@@ -233,7 +233,7 @@ const About = ({ language }) => {
         <div className="text-center">
           <a
             href="#menu"
-            className="bg-[#DDC36B] text-[#333333] px-8 py-4 rounded-full text-lg font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 inline-block"
+            className="bg-[#FFD700] text-[#333333] px-8 py-4 rounded-full text-lg font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 inline-block"
           >
             {language === "en" ? "Explore Our Menu" : "Explora Nuestro Menú"}
           </a>

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import heroImage from "/img/hero-image1.jpg";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -12,8 +12,12 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 ).toString();
 
 const PDFMenuViewer = ({ language, onClose }) => {
+  PDFMenuViewer.propTypes = {
+    language: PropTypes.oneOf(["en", "es"]).isRequired,
+    onClose: PropTypes.func.isRequired,
+  };
   const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageNumber] = useState(1);
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
@@ -28,7 +32,7 @@ const PDFMenuViewer = ({ language, onClose }) => {
           </h2>
           <button
             onClick={onClose}
-            className="text-[#004AAE] hover:text-[#DDC36B]"
+            className="text-[#004AAE] hover:text-[#FFD700]"
           >
             ✕
           </button>
@@ -103,7 +107,7 @@ const Hero = ({ language }) => {
 
       <div className="absolute inset-0 bg-[#004AAE] bg-opacity-50"></div>
       <div className="relative z-20 text-center text-white hero-content">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-[#DDC36B]">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-[#FFD700]">
           {language === "en"
             ? "Welcome to CevicheBistro"
             : "Bienvenidos a CevicheBistro"}
@@ -116,13 +120,13 @@ const Hero = ({ language }) => {
         <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
           <a
             href="#menu"
-            className="hero-button bg-[#DDC36B] text-[#333333] px-8 py-4 rounded-full text-xl font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 inline-block focus:outline-none focus:ring-2 focus:ring-[#DDC36B] focus:ring-opacity-50"
+            className="hero-button bg-[#FFD700] text-[#333333] px-8 py-4 rounded-full text-xl font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 inline-block focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:ring-opacity-50"
           >
             {language === "en" ? "Explore Our Menu" : "Explora Nuestro Menú"}
           </a>
           <button
             onClick={() => setIsPDFOpen(true)}
-            className="hero-button bg-white text-[#004AAE] px-8 py-4 rounded-full text-xl font-semibold hover:bg-[#DDC36B] hover:text-[#333333] transition duration-300 inline-block focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+            className="hero-button bg-white text-[#004AAE] px-8 py-4 rounded-full text-xl font-semibold hover:bg-[#FFD700] hover:text-[#333333] transition duration-300 inline-block focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
           >
             {language === "en" ? "View Full Menu PDF" : "Ver Menú Completo PDF"}
           </button>
@@ -134,7 +138,7 @@ const Hero = ({ language }) => {
       >
         <div className="animate-bounce">
           <svg
-            className="w-6 h-6 text-[#DDC36B]"
+            className="w-6 h-6 text-[#FFD700]"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"

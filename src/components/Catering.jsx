@@ -155,7 +155,7 @@ const Catering = ({ language }) => {
         <div className="mt-16 text-center">
           <a
             href="#contact"
-            className="bg-[#DDC36B] text-[#333333] px-10 py-5 rounded-full text-2xl font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 inline-block shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#004AAE] focus:ring-opacity-50"
+            className="bg-[#FFD700] text-[#333333] px-10 py-5 rounded-full text-2xl font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 inline-block shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#004AAE] focus:ring-opacity-50"
             aria-label={
               language === "en" ? "Request Catering" : "Solicitar Catering"
             }

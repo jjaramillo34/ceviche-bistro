@@ -130,10 +130,10 @@ const MenuItem = ({ item, language }) => {
           />
           {item.options && (
             <div className="absolute top-0 right-0 bg-black bg-opacity-70 p-2 rounded-bl-lg">
-              <h4 className="font-semibold text-[#DDC36B] mb-1 text-sm">
+              <h4 className="font-semibold text-[#FFD700] mb-1 text-sm">
                 {language === "en" ? "Options:" : "Opciones:"}
               </h4>
-              <ul className="text-[#DDC36B] text-xs">
+              <ul className="text-[#FFD700] text-xs">
                 {item.options.map((option, index) => (
                   <li key={index}>{option[language]}</li>
                 ))}
@@ -160,7 +160,7 @@ const NextArrow = ({ onClick }) => (
     className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-white bg-opacity-50 rounded-full shadow-md hover:bg-opacity-75 transition-all duration-300 focus:outline-none"
     aria-label="Next"
   >
-    <ChevronRight size={40} className="text-[#DDC36B]" />
+    <ChevronRight size={40} className="text-[#FFD700]" />
   </button>
 );
 
@@ -170,7 +170,7 @@ const PrevArrow = ({ onClick }) => (
     className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-white bg-opacity-50 rounded-full shadow-md hover:bg-opacity-75 transition-all duration-300 focus:outline-none"
     aria-label="Previous"
   >
-    <ChevronLeft size={40} className="text-[#DDC36B]" />
+    <ChevronLeft size={40} className="text-[#FFD700]" />
   </button>
 );
 
@@ -191,7 +191,7 @@ const PDFMenuViewer = ({ language, onClose }) => {
           </h2>
           <button
             onClick={onClose}
-            className="text-[#004AAE] hover:text-[#DDC36B]"
+            className="text-[#004AAE] hover:text-[#FFD700]"
           >
             <X size={24} />
           </button>
@@ -288,7 +288,7 @@ const Menu = ({ language }) => {
           className="text-5xl font-bold text-center mb-16 text-[#004AAE] relative"
         >
           {language === "en" ? "Our Menu" : "Nuestro Menú"}
-          <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-[#DDC36B]"></span>
+          <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-[#FFD700]"></span>
         </h2>
         <div className="relative px-12">
           <Slider {...settings} className="menu-slider">
@@ -300,7 +300,7 @@ const Menu = ({ language }) => {
         <div className="text-center mt-12">
           <button
             onClick={() => setIsPDFOpen(true)}
-            className="bg-[#DDC36B] text-[#333333] px-6 py-3 rounded-full text-xl font-semibold hover:bg-[#C4A95D] transition-colors duration-300 flex items-center mx-auto"
+            className="bg-[#FFD700] text-[#333333] px-6 py-3 rounded-full text-xl font-semibold hover:bg-[#C4A95D] transition-colors duration-300 flex items-center mx-auto"
           >
             <FileText size={24} className="mr-2" />
             {language === "en" ? "View Full Menu PDF" : "Ver Menú Completo PDF"}

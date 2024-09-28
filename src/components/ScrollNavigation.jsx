@@ -51,18 +51,18 @@ const ScrollNavigation = () => {
               className={`w-5 h-5 rounded-full cursor-pointer transition-all duration-300 ease-in-out
                 ${
                   activeSection === section.id
-                    ? "bg-[#DDC36B] scale-125"
-                    : "bg-gray-300 hover:bg-[#DDC36B] hover:scale-110"
+                    ? "bg-[#FFD700] scale-125"
+                    : "bg-gray-300 hover:bg-[#FFD700] hover:scale-110"
                 }`}
               onClick={() => scrollToSection(section.id)}
             />
-            <span className="absolute left-8 top-1/2 transform -translate-y-1/2 bg-[#DDC36B] text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+            <span className="absolute left-8 top-1/2 transform -translate-y-1/2 bg-[#FFD700] text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
               {section.label}
             </span>
             {activeSection === section.id && (
               <ChevronRight
                 size={24}
-                className="text-[#DDC36B] absolute -right-6 top-1/2 transform -translate-y-1/2 transition-all duration-300 ease-in-out"
+                className="text-[#FFD700] absolute -right-6 top-1/2 transform -translate-y-1/2 transition-all duration-300 ease-in-out"
               />
             )}
           </div>
