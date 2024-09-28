@@ -126,6 +126,7 @@ const Catering = ({ language }) => {
           className="text-5xl font-bold text-center mb-8 text-[#004AAE] animate-fadeIn"
           aria-live="polite"
         ></h2>
+        <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-96 h-1 bg-[#004AAE]"></span>
         <div className="max-w-3xl mx-auto text-center mb-16">
           <p
             ref={descriptionRef}

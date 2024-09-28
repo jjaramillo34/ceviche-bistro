@@ -212,10 +212,10 @@ const Gallery = ({ language }) => {
                     {image.alt}
                   </p>
                   <div className="flex justify-center items-center space-x-4">
-                    <span className="flex items-center">
+                    <span className="flex items-center text-red-500">
                       <Heart size={16} className="mr-1" /> {image.likes}
                     </span>
-                    <span className="flex items-center">
+                    <span className="flex items-center text-blue-600">
                       <MessageCircle size={16} className="mr-1" />{" "}
                       {image.comments}
                     </span>
@@ -226,13 +226,13 @@ const Gallery = ({ language }) => {
           </div>
           <button
             onClick={prevSlide}
-            className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full hover:bg-opacity-75 transition-all duration-300"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-white bg-opacity-50 rounded-full shadow-md hover:bg-opacity-75 transition-all duration-300 focus:outline-none"
           >
             <ChevronLeft size={24} className="text-[#004AAE]" />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full hover:bg-opacity-75 transition-all duration-300"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-white bg-opacity-50 rounded-full shadow-md hover:bg-opacity-75 transition-all duration-300 focus:outline-none"
           >
             <ChevronRight size={24} className="text-[#004AAE]" />
           </button>

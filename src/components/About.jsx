@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -139,10 +140,11 @@ const About = ({ language }) => {
       className="py-20 bg-gradient-to-b from-[#DDC36B] to-[#F5F5F5]"
     >
       <div className="container mx-auto px-4">
-        <h2 className="text-5xl font-bold text-center mb-4 text-white">
+        <h2 className="text-5xl font-bold text-center mb-4 text-white relative pb-6">
           {language === "en"
             ? "Discover Our Story"
             : "Descubre Nuestra Historia"}
+          <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-96 h-1 bg-[#004AAE]"></span>
         </h2>
         <p className="text-xl text-center mb-12 text-white">
           {language === "en"
@@ -239,6 +241,10 @@ const About = ({ language }) => {
       </div>
     </section>
   );
+};
+
+About.propTypes = {
+  language: PropTypes.string.isRequired,
 };
 
 export default About;
