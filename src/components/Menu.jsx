@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ChevronLeft, ChevronRight, FileText, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, FileText, X, Info } from "lucide-react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
@@ -152,7 +152,7 @@ AnimatedTitle.propTypes = {
   className: PropTypes.string,
 };
 
-const MenuItem = ({ item, language }) => {
+const MenuItem = ({ item, language, onInfoClick }) => {
   const cardRef = useRef(null);
 
   useEffect(() => {
@@ -169,7 +169,7 @@ const MenuItem = ({ item, language }) => {
   }, []);
 
   return (
-    <div ref={cardRef} className="px-4">
+    <div ref={cardRef} className="px-2">
       <div className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 h-full flex flex-col">
         <div className="relative">
           <img
@@ -177,25 +177,22 @@ const MenuItem = ({ item, language }) => {
             alt={item.name[language]}
             className="w-full h-48 object-cover"
           />
-          {item.options && (
-            <div className="absolute top-0 right-0 bg-black bg-opacity-70 p-2 rounded-bl-lg">
-              <h4 className="font-semibold text-[#FFD700] mb-1 text-sm">
-                {language === "en" ? "Options:" : "Opciones:"}
-              </h4>
-              <ul className="text-[#FFD700] text-xs">
-                {item.options.map((option, index) => (
-                  <li key={index}>{option[language]}</li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <button
+            onClick={() => onInfoClick(item)}
+            className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md hover:bg-[#FFD700] transition-colors duration-300"
+            aria-label="More information"
+          >
+            <Info size={20} className="text-[#004AAE]" />
+          </button>
         </div>
-        <div className="p-6 flex-grow flex flex-col justify-between">
+        <div className="p-4 flex-grow flex flex-col justify-between">
           <div>
             <h3 className="text-xl font-semibold mb-2 text-[#004AAE]">
               {item.name[language]}
             </h3>
-            <p className="text-[#333333]">{item.description[language]}</p>
+            <p className="text-[#333333] text-sm">
+              {item.description[language]}
+            </p>
           </div>
         </div>
       </div>
@@ -222,12 +219,13 @@ MenuItem.propTypes = {
     image: PropTypes.string.isRequired,
   }).isRequired,
   language: PropTypes.oneOf(["en", "es"]).isRequired,
+  onInfoClick: PropTypes.func.isRequired,
 };
 
 const NextArrow = ({ onClick }) => (
   <button
     onClick={onClick}
-    className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-white bg-opacity-50 rounded-full shadow-md hover:bg-opacity-75 transition-all duration-300 focus:outline-none"
+    className="absolute -right-12 top-1/2 -translate-y-1/2 z-10 p-2 bg-white bg-opacity-50 rounded-full shadow-md hover:bg-opacity-75 transition-all duration-300 focus:outline-none"
     aria-label="Next"
   >
     <ChevronRight size={40} className="text-[#FFD700]" />
@@ -241,7 +239,7 @@ NextArrow.propTypes = {
 const PrevArrow = ({ onClick }) => (
   <button
     onClick={onClick}
-    className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-white bg-opacity-50 rounded-full shadow-md hover:bg-opacity-75 transition-all duration-300 focus:outline-none"
+    className="absolute -left-12 top-1/2 -translate-y-1/2 z-10 p-2 bg-white bg-opacity-50 rounded-full shadow-md hover:bg-opacity-75 transition-all duration-300 focus:outline-none"
     aria-label="Previous"
   >
     <ChevronLeft size={40} className="text-[#FFD700]" />
@@ -315,20 +313,101 @@ PDFMenuViewer.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
+const MenuItemModal = ({ item, language, onClose }) => {
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    gsap.from(modalRef.current, {
+      opacity: 0,
+      y: 50,
+      duration: 0.5,
+      ease: "power3.out",
+    });
+  }, []);
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+      <div ref={modalRef} className="bg-white rounded-lg p-6 w-full max-w-2xl">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold text-[#004AAE]">
+            {item.name[language]}
+          </h2>
+          <button
+            onClick={onClose}
+            className="text-[#004AAE] hover:text-[#FFD700]"
+          >
+            <X size={24} />
+          </button>
+        </div>
+        <img
+          src={item.image}
+          alt={item.name[language]}
+          className="w-full h-64 object-cover rounded-lg mb-4"
+        />
+        <p className="text-[#333333] mb-4">{item.description[language]}</p>
+        {item.options && (
+          <div>
+            <h3 className="text-xl font-semibold mb-2 text-[#004AAE]">
+              {language === "en" ? "Options:" : "Opciones:"}
+            </h3>
+            <ul className="list-disc list-inside">
+              {item.options.map((option, index) => (
+                <li key={index} className="text-[#333333]">
+                  {option[language]}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+MenuItemModal.propTypes = {
+  item: PropTypes.shape({
+    name: PropTypes.shape({
+      en: PropTypes.string.isRequired,
+      es: PropTypes.string.isRequired,
+    }).isRequired,
+    description: PropTypes.shape({
+      en: PropTypes.string.isRequired,
+      es: PropTypes.string.isRequired,
+    }).isRequired,
+    options: PropTypes.arrayOf(
+      PropTypes.shape({
+        en: PropTypes.string.isRequired,
+        es: PropTypes.string.isRequired,
+      })
+    ),
+    image: PropTypes.string.isRequired,
+  }).isRequired,
+  language: PropTypes.oneOf(["en", "es"]).isRequired,
+  onClose: PropTypes.func.isRequired,
+};
+
 const Menu = ({ language }) => {
   const [isPDFOpen, setIsPDFOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     responsive: [
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
       {
         breakpoint: 1024,
         settings: {
@@ -355,18 +434,22 @@ const Menu = ({ language }) => {
         <AnimatedTitle className="mb-16 text-[#004AAE]">
           {language === "en" ? "Our Menu" : "Nuestro Menú"}
         </AnimatedTitle>
-        <div className="relative px-12">
+        <div className="relative px-16">
           <Slider {...settings} className="menu-slider">
             {menuItems.map((item, index) => (
-              <MenuItem key={index} item={item} language={language} />
+              <MenuItem
+                key={index}
+                item={item}
+                language={language}
+                onInfoClick={setSelectedItem}
+              />
             ))}
           </Slider>
         </div>
         <div className="text-center mt-12">
           <button
             onClick={() => setIsPDFOpen(true)}
-            className="bg-[#FFD700] text-[#333333] px-6 py-3 rounded-full text-xl font-semibold hover:bg-[#C4A95D]
-             transition-colors duration-300 flex items-center mx-auto"
+            className="bg-[#FFD700] text-[#333333] px-6 py-3 rounded-full text-xl font-semibold hover:bg-[#C4A95D] transition-colors duration-300 flex items-center mx-auto"
           >
             <FileText size={24} className="mr-2" />
             {language === "en" ? "View Full Menu PDF" : "Ver Menú Completo PDF"}
@@ -377,6 +460,13 @@ const Menu = ({ language }) => {
         <PDFMenuViewer
           language={language}
           onClose={() => setIsPDFOpen(false)}
+        />
+      )}
+      {selectedItem && (
+        <MenuItemModal
+          item={selectedItem}
+          language={language}
+          onClose={() => setSelectedItem(null)}
         />
       )}
     </section>
