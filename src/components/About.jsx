@@ -1,9 +1,58 @@
-import { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ChevronDown } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const AnimatedTitle = ({ children, className }) => {
+  const titleRef = useRef(null);
+  const lineLeftRef = useRef(null);
+  const lineRightRef = useRef(null);
+
+  useEffect(() => {
+    gsap.from(titleRef.current, {
+      opacity: 0,
+      y: -30,
+      duration: 0.8,
+      ease: "power3.out",
+    });
+
+    gsap.from([lineLeftRef.current, lineRightRef.current], {
+      width: 0,
+      duration: 0.6,
+      delay: 0.4,
+      ease: "power2.inOut",
+    });
+  }, []);
+
+  return (
+    <div className={`relative text-center ${className}`}>
+      <h2
+        ref={titleRef}
+        className="text-3xl sm:text-4xl md:text-5xl font-bold inline-block px-4 relative"
+      >
+        {children}
+        <span
+          ref={lineLeftRef}
+          className="absolute left-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform -translate-x-full"
+          style={{ width: "50px" }}
+        ></span>
+        <span
+          ref={lineRightRef}
+          className="absolute right-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform translate-x-full"
+          style={{ width: "50px" }}
+        ></span>
+      </h2>
+    </div>
+  );
+};
+
+AnimatedTitle.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+};
 
 const About = ({ language }) => {
   const [activeTab, setActiveTab] = useState("who-we-are");
@@ -38,18 +87,22 @@ const About = ({ language }) => {
     {
       en: "Authentic Peruvian Flavors",
       es: "Auténticos Sabores Peruanos",
+      icon: "🍽️",
     },
     {
       en: "Customizable Menus",
       es: "Menús Personalizables",
+      icon: "📜",
     },
     {
       en: "Professional Service",
       es: "Servicio Profesional",
+      icon: "👨‍🍳",
     },
     {
       en: "Sustainable Practices",
       es: "Prácticas Sostenibles",
+      icon: "🌿",
     },
   ];
 
@@ -137,16 +190,15 @@ const About = ({ language }) => {
     <section
       ref={sectionRef}
       id="about"
-      className="py-20 bg-gradient-to-b from-[#FFD700] to-[#F5F5F5]"
+      className="py-24 bg-gradient-to-b from-[#E6F7FF] to-[#F5F5F5]"
     >
       <div className="container mx-auto px-4">
-        <h2 className="text-5xl font-bold text-center mb-4 text-white relative pb-6">
+        <AnimatedTitle className="mb-8 text-[#004AAE]">
           {language === "en"
             ? "Discover Our Story"
             : "Descubre Nuestra Historia"}
-          <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-96 h-1 bg-[#004AAE]"></span>
-        </h2>
-        <p className="text-xl text-center mb-12 text-white">
+        </AnimatedTitle>
+        <p className="text-xl text-center mb-16 text-[#333333]">
           {language === "en"
             ? "Experience the passion behind Ceviche Bistro"
             : "Experimenta la pasión detrás de Ceviche Bistro"}
@@ -206,9 +258,9 @@ const About = ({ language }) => {
           ref={missionRef}
           className="bg-white rounded-lg shadow-2xl p-8 mb-16"
         >
-          <h3 className="text-3xl font-semibold mb-6 text-[#004AAE] text-center">
+          <AnimatedTitle className="mb-8 text-[#004AAE]">
             {language === "en" ? "Our Mission" : "Nuestra Misión"}
-          </h3>
+          </AnimatedTitle>
           <p className="text-lg mb-4 text-[#333333] leading-relaxed">
             {mission[language]}
           </p>
@@ -221,8 +273,9 @@ const About = ({ language }) => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg shadow-lg p-6 text-center"
+              className="bg-white rounded-lg shadow-lg p-6 text-center transform hover:scale-105 transition duration-300"
             >
+              <div className="text-4xl mb-4">{feature.icon}</div>
               <h4 className="text-xl font-semibold mb-4 text-[#004AAE]">
                 {feature[language]}
               </h4>
@@ -233,9 +286,10 @@ const About = ({ language }) => {
         <div className="text-center">
           <a
             href="#menu"
-            className="bg-[#FFD700] text-[#333333] px-8 py-4 rounded-full text-lg font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 inline-block"
+            className="bg-[#FFD700] text-[#333333] px-8 py-4 rounded-full text-lg font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 inline-flex items-center group"
           >
             {language === "en" ? "Explore Our Menu" : "Explora Nuestro Menú"}
+            <ChevronDown className="ml-2 transform group-hover:translate-y-1 transition-transform duration-300" />
           </a>
         </div>
       </div>
@@ -244,7 +298,7 @@ const About = ({ language }) => {
 };
 
 About.propTypes = {
-  language: PropTypes.string.isRequired,
+  language: PropTypes.oneOf(["en", "es"]).isRequired,
 };
 
 export default About;
