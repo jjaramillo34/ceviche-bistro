@@ -140,7 +140,7 @@ const Gallery = ({ language }) => {
     resetTimeout();
     timeoutRef.current = setTimeout(() => {
       setCurrentIndex((prevIndex) =>
-        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+        prevIndex === images.length - 3 ? 0 : prevIndex + 1
       );
     }, 5000);
 
@@ -169,13 +169,13 @@ const Gallery = ({ language }) => {
 
   const nextSlide = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      prevIndex === images.length - 3 ? 0 : prevIndex + 1
     );
   };
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+      prevIndex === 0 ? images.length - 3 : prevIndex - 1
     );
   };
 
@@ -205,7 +205,7 @@ const Gallery = ({ language }) => {
             {images.map((image, index) => (
               <div
                 key={index}
-                className="w-full flex-shrink-0 p-2 transition-all duration-500 ease-in-out"
+                className="w-full md:w-1/3 flex-shrink-0 p-2 transition-all duration-500 ease-in-out"
                 onClick={() => setModalImage(image)}
               >
                 <img
@@ -233,12 +233,14 @@ const Gallery = ({ language }) => {
           <button
             onClick={prevSlide}
             className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-white bg-opacity-50 rounded-full shadow-md hover:bg-opacity-75 transition-all duration-300 focus:outline-none"
+            aria-label="Previous image"
           >
             <ChevronLeft size={24} className="text-[#004AAE]" />
           </button>
           <button
             onClick={nextSlide}
             className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-white bg-opacity-50 rounded-full shadow-md hover:bg-opacity-75 transition-all duration-300 focus:outline-none"
+            aria-label="Next image"
           >
             <ChevronRight size={24} className="text-[#004AAE]" />
           </button>
@@ -254,6 +256,7 @@ const Gallery = ({ language }) => {
                   ? "bg-[#004AAE] scale-125"
                   : "bg-gray-300 hover:bg-[#FFD700]"
               }`}
+              aria-label={`Go to image ${index + 1}`}
             />
           ))}
         </div>
