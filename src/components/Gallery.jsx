@@ -9,66 +9,30 @@ import {
   Share2,
   ChevronLeft,
   ChevronRight,
+  Hash,
 } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const eventHashtags = [
-  "#CevicheFiesta",
-  "#PeruvianNights",
-  "#SeafoodSoiree",
-  "#LimaFlavors",
-  "#OceanToTable",
-  "#CulinaryJourney",
-  "#TasteOfPeru",
-  "#FoodTruckFun",
-  "#FreshCatch",
-  "#CevicheLove",
-  "#StreetFoodDelights",
-  "#FusionFeast",
-  "#CoastalCuisine",
-  "#AndesinNYC",
-  "#LatinoFlavors",
-  "#FoodieMeetup",
-  "#TropicalTastes",
-  "#SouthAmericanSpice",
-  "#CevicheMasters",
-  "#SeafoodCelebration",
-  "#PeruvianPop",
-  "#FlavorsOfLima",
-  "#OceanicDelights",
-  "#LatinoStreetFood",
-  "#CulinaryAdventure",
-  "#FoodieParadise",
-  "#TasteTheOcean",
-  "#PeruvianPride",
-  "#FreshAndZesty",
-  "#CevicheCraft",
-  "#PeruvianFusion",
-  "#CevicheLovers",
-  "#LimaStreetFood",
-  "#AndesExperience",
-  "#PacificFlavors",
-  "#LatinCuisine",
-  "#CevicheMania",
-  "#PeruvianDelights",
-  "#OceanFresh",
-  "#LimaNights",
-  "#TasteOfTheAndes",
-  "#SeafoodFiesta",
-  "#CulinaryPeru",
-  "#FoodieHeaven",
-  "#CevicheTime",
-  "#PeruvianTradition",
-  "#CoastalEats",
-  "#AndesCuisine",
-  "#LimaEats",
-  "#CevicheParty",
-  "#PeruvianSpice",
-  "#OceanHarvest",
+  "CevicheFiesta",
+  "PeruvianNights",
+  "SeafoodSoiree",
+  "LimaFlavors",
+  "OceanToTable",
+  "CulinaryJourney",
+  "TasteOfPeru",
+  "FoodTruckFun",
+  "FreshCatch",
+  "CevicheLove",
+  "StreetFoodDelights",
+  "FusionFeast",
+  "CoastalCuisine",
+  "AndesinNYC",
+  "LatinoFlavors",
 ];
 
-const images = Array.from({ length: 54 }, (_, i) => ({
+const images = Array.from({ length: 15 }, (_, i) => ({
   src: `/img/image${i + 1}.jpeg`,
   alt: eventHashtags[i],
   likes: Math.floor(Math.random() * 1000),
@@ -133,7 +97,7 @@ const ImageModal = ({ image, onClose }) => {
           className="w-full h-full object-contain"
         />
         <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
-          <p className="text-lg font-semibold">{image.alt}</p>
+          <p className="text-lg font-semibold">#{image.alt}</p>
           <div className="flex items-center mt-2">
             <Heart size={20} className="mr-1" /> {image.likes}
             <MessageCircle size={20} className="ml-4 mr-1" /> {image.comments}
@@ -232,20 +196,16 @@ const Gallery = ({ language }) => {
 
         <div
           ref={sliderRef}
-          className="relative w-full h-[600px] overflow-hidden rounded-lg shadow-2xl"
+          className="relative w-full h-[400px] md:h-[600px] overflow-hidden rounded-lg shadow-2xl"
         >
           <div
             className="flex h-full transition-transform duration-500 ease-in-out"
-            style={{ transform: `translateX(-${currentIndex * 33.333}%)` }}
+            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
             {images.map((image, index) => (
               <div
                 key={index}
-                className={`w-1/3 flex-shrink-0 p-2 transition-all duration-500 ease-in-out ${
-                  index === currentIndex
-                    ? "scale-105 z-10"
-                    : "scale-95 opacity-70"
-                }`}
+                className="w-full flex-shrink-0 p-2 transition-all duration-500 ease-in-out"
                 onClick={() => setModalImage(image)}
               >
                 <img
@@ -253,13 +213,9 @@ const Gallery = ({ language }) => {
                   alt={image.alt}
                   className="w-full h-full object-cover rounded-lg shadow-md"
                 />
-                <div
-                  className={`absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent ${
-                    index === currentIndex ? "text-[#FFD700]" : "text-white"
-                  }`}
-                >
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent text-white">
                   <p className="text-center font-semibold text-lg mb-2">
-                    {image.alt}
+                    #{image.alt}
                   </p>
                   <div className="flex justify-center items-center space-x-4">
                     <span className="flex items-center text-red-500">
@@ -300,6 +256,25 @@ const Gallery = ({ language }) => {
               }`}
             />
           ))}
+        </div>
+
+        <div className="mt-16">
+          <h3 className="text-2xl font-semibold text-center mb-8 text-[#004AAE]">
+            {language === "en" ? "Popular Hashtags" : "Hashtags Populares"}
+          </h3>
+          <div className="flex flex-wrap justify-center gap-4">
+            {eventHashtags.map((hashtag, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-full px-4 py-2 shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105 group"
+              >
+                <span className="text-[#004AAE] font-semibold group-hover:text-[#FFD700]">
+                  <Hash size={16} className="inline-block mr-1" />
+                  {hashtag}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       {modalImage && (
