@@ -15,6 +15,49 @@ import facebookQR from "/img/facebook-qr.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const AnimatedTitle = ({ children, className }) => {
+  const titleRef = useRef(null);
+  const lineLeftRef = useRef(null);
+  const lineRightRef = useRef(null);
+
+  useEffect(() => {
+    gsap.from(titleRef.current, {
+      opacity: 0,
+      y: -30,
+      duration: 0.8,
+      ease: "power3.out",
+    });
+
+    gsap.from([lineLeftRef.current, lineRightRef.current], {
+      width: 0,
+      duration: 0.6,
+      delay: 0.4,
+      ease: "power2.inOut",
+    });
+  }, []);
+
+  return (
+    <div className={`relative text-center ${className}`}>
+      <h2
+        ref={titleRef}
+        className="text-3xl sm:text-4xl md:text-5xl font-bold inline-block px-4 relative"
+      >
+        {children}
+        <span
+          ref={lineLeftRef}
+          className="absolute left-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform -translate-x-full"
+          style={{ width: "50px" }}
+        ></span>
+        <span
+          ref={lineRightRef}
+          className="absolute right-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform translate-x-full"
+          style={{ width: "50px" }}
+        ></span>
+      </h2>
+    </div>
+  );
+};
+
 const Contact = ({ language }) => {
   const formRef = useRef(null);
   const infoRef = useRef(null);
@@ -94,14 +137,14 @@ const Contact = ({ language }) => {
       className="py-24 bg-gradient-to-br from-[#004AAE] to-[#001F4D]"
     >
       <div className="container mx-auto px-4">
-        <h2 className="text-5xl font-bold text-center mb-12 text-white">
+        <AnimatedTitle className="mb-12 text-white">
           {language === "en" ? "Get in Touch" : "Contáctanos"}
-        </h2>
+        </AnimatedTitle>
         <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-2xl overflow-hidden">
           <div ref={formRef} className="lg:w-1/2 p-8">
-            <h3 className="text-3xl font-semibold mb-6 text-[#004AAE]">
+            <AnimatedTitle className="mb-6 text-[#004AAE]">
               {language === "en" ? "Send Us a Message" : "Envíanos un Mensaje"}
-            </h3>
+            </AnimatedTitle>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label
@@ -165,11 +208,11 @@ const Contact = ({ language }) => {
                 "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23DDC36B' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E\")",
             }}
           >
-            <h3 className="text-3xl font-semibold mb-8 text-[#FFD700]">
+            <AnimatedTitle className="mb-8 text-[#FFD700]">
               {language === "en"
                 ? "Contact Information"
                 : "Información de Contacto"}
-            </h3>
+            </AnimatedTitle>
             <div className="space-y-6">
               <div className="flex items-center">
                 <Mail size={24} className="text-[#FFD700] mr-4" />

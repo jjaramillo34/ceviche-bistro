@@ -109,8 +109,8 @@ const Hero = ({ language }) => {
       <div className="relative z-20 text-center text-white hero-content">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-[#FFD700]">
           {language === "en"
-            ? "Welcome to CevicheBistro"
-            : "Bienvenidos a CevicheBistro"}
+            ? "Welcome to Ceviche Bistro"
+            : "Bienvenidos a Ceviche Bistro"}
         </h1>
         <p className="text-xl sm:text-2xl mb-10 max-w-2xl mx-auto text-[#F5F5F5]">
           {language === "en"
