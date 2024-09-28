@@ -6,8 +6,8 @@ import {
   Heart,
   MessageCircle,
   Share2,
-  Filter,
-  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -43,14 +43,35 @@ const eventHashtags = [
   "#PeruvianPride",
   "#FreshAndZesty",
   "#CevicheCraft",
+  "#PeruvianFusion",
+  "#CevicheLovers",
+  "#LimaStreetFood",
+  "#AndesExperience",
+  "#PacificFlavors",
+  "#LatinCuisine",
+  "#CevicheMania",
+  "#PeruvianDelights",
+  "#OceanFresh",
+  "#LimaNights",
+  "#TasteOfTheAndes",
+  "#SeafoodFiesta",
+  "#CulinaryPeru",
+  "#FoodieHeaven",
+  "#CevicheTime",
+  "#PeruvianTradition",
+  "#CoastalEats",
+  "#AndesCuisine",
+  "#LimaEats",
+  "#CevicheParty",
+  "#PeruvianSpice",
+  "#OceanHarvest",
 ];
 
 const images = Array.from({ length: 54 }, (_, i) => ({
   src: `/img/image${i + 1}.jpeg`,
-  alt: eventHashtags[i % eventHashtags.length],
+  alt: eventHashtags[i],
   likes: Math.floor(Math.random() * 1000),
   comments: Math.floor(Math.random() * 100),
-  category: ["food", "event", "people"][Math.floor(Math.random() * 3)],
 }));
 
 const ImageModal = ({ image, onClose }) => {
@@ -81,39 +102,36 @@ const ImageModal = ({ image, onClose }) => {
 };
 
 const Gallery = ({ language }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [modalImage, setModalImage] = useState(null);
-  const [visibleImages, setVisibleImages] = useState(images.slice(0, 12));
-  const [filter, setFilter] = useState("all");
-  const galleryRef = useRef(null);
+  const sliderRef = useRef(null);
+  const timeoutRef = useRef(null);
 
-  const loadMore = () => {
-    setVisibleImages((prevImages) => {
-      const nextImages = images.slice(
-        prevImages.length,
-        prevImages.length + 12
-      );
-      return [...prevImages, ...nextImages];
-    });
-  };
-
-  const filterImages = (category) => {
-    setFilter(category);
-    if (category === "all") {
-      setVisibleImages(images.slice(0, 12));
-    } else {
-      setVisibleImages(
-        images.filter((img) => img.category === category).slice(0, 12)
-      );
+  const resetTimeout = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
     }
   };
 
   useEffect(() => {
+    resetTimeout();
+    timeoutRef.current = setTimeout(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000);
+
+    return () => {
+      resetTimeout();
+    };
+  }, [currentIndex]);
+
+  useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(".gallery-item", {
+      gsap.from(sliderRef.current, {
         opacity: 0,
         y: 50,
-        stagger: 0.1,
-        duration: 0.5,
+        duration: 1,
         scrollTrigger: {
           trigger: "#gallery",
           start: "top 80%",
@@ -121,15 +139,35 @@ const Gallery = ({ language }) => {
           toggleActions: "play none none reverse",
         },
       });
-    }, galleryRef);
+    }, sliderRef);
 
     return () => ctx.revert();
-  }, [visibleImages]);
+  }, []);
+
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+    );
+  };
+
+  const getVisibleImages = () => {
+    const visibleImages = [];
+    for (let i = -1; i <= 1; i++) {
+      const index = (currentIndex + i + images.length) % images.length;
+      visibleImages.push({ ...images[index], offset: i });
+    }
+    return visibleImages;
+  };
 
   return (
     <section
       id="gallery"
-      ref={galleryRef}
       className="py-20 bg-gradient-to-b from-[#DDC36B] to-[#F5F5F5]"
     >
       <div className="container mx-auto px-4">
@@ -142,94 +180,75 @@ const Gallery = ({ language }) => {
             : "Explora los momentos vibrantes de nuestros eventos culinarios y reuniones sociales"}
         </p>
 
-        <div className="flex justify-center mb-8 flex-wrap">
-          <button
-            onClick={() => filterImages("all")}
-            className={`m-2 px-4 py-2 rounded-full transition-colors duration-300 ${
-              filter === "all"
-                ? "bg-[#004AAE] text-white"
-                : "bg-white text-[#004AAE] hover:bg-[#004AAE] hover:text-white"
-            }`}
+        <div
+          ref={sliderRef}
+          className="relative w-full h-[600px] overflow-hidden rounded-lg"
+        >
+          <div
+            className="flex h-full transition-transform duration-500 ease-in-out"
+            style={{ transform: `translateX(-${currentIndex * 33.333}%)` }}
           >
-            {language === "en" ? "All" : "Todos"}
-          </button>
-          <button
-            onClick={() => filterImages("food")}
-            className={`m-2 px-4 py-2 rounded-full transition-colors duration-300 ${
-              filter === "food"
-                ? "bg-[#004AAE] text-white"
-                : "bg-white text-[#004AAE] hover:bg-[#004AAE] hover:text-white"
-            }`}
-          >
-            {language === "en" ? "Food" : "Comida"}
-          </button>
-          <button
-            onClick={() => filterImages("event")}
-            className={`m-2 px-4 py-2 rounded-full transition-colors duration-300 ${
-              filter === "event"
-                ? "bg-[#004AAE] text-white"
-                : "bg-white text-[#004AAE] hover:bg-[#004AAE] hover:text-white"
-            }`}
-          >
-            {language === "en" ? "Events" : "Eventos"}
-          </button>
-          <button
-            onClick={() => filterImages("people")}
-            className={`m-2 px-4 py-2 rounded-full transition-colors duration-300 ${
-              filter === "people"
-                ? "bg-[#004AAE] text-white"
-                : "bg-white text-[#004AAE] hover:bg-[#004AAE] hover:text-white"
-            }`}
-          >
-            {language === "en" ? "People" : "Personas"}
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {visibleImages.map((image, index) => (
-            <div
-              key={index}
-              className="gallery-item bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105"
-              onClick={() => setModalImage(image)}
-            >
-              <div className="relative">
+            {images.map((image, index) => (
+              <div
+                key={index}
+                className={`w-1/3 flex-shrink-0 p-2 transition-all duration-500 ease-in-out ${
+                  index === currentIndex
+                    ? "scale-105 z-10"
+                    : "scale-95 opacity-70"
+                }`}
+                onClick={() => setModalImage(image)}
+              >
                 <img
                   src={image.src}
                   alt={image.alt}
-                  className="w-full h-64 object-cover"
+                  className="w-full h-full object-cover rounded-lg"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-                  <p className="text-white text-center font-semibold text-lg">
+                <div
+                  className={`absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent ${
+                    index === currentIndex ? "text-[#DDC36B]" : "text-white"
+                  }`}
+                >
+                  <p className="text-center font-semibold text-lg mb-2">
                     {image.alt}
                   </p>
+                  <div className="flex justify-center items-center space-x-4">
+                    <span className="flex items-center">
+                      <Heart size={16} className="mr-1" /> {image.likes}
+                    </span>
+                    <span className="flex items-center">
+                      <MessageCircle size={16} className="mr-1" />{" "}
+                      {image.comments}
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className="p-4 flex justify-between items-center">
-                <span className="flex items-center text-red-500">
-                  <Heart size={16} className="mr-1" /> {image.likes}
-                </span>
-                <span className="flex items-center text-blue-500">
-                  <MessageCircle size={16} className="mr-1" /> {image.comments}
-                </span>
-                <span className="flex items-center text-green-500">
-                  <Share2 size={16} />
-                </span>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <button
+            onClick={prevSlide}
+            className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full hover:bg-opacity-75 transition-all duration-300"
+          >
+            <ChevronLeft size={24} className="text-[#004AAE]" />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full hover:bg-opacity-75 transition-all duration-300"
+          >
+            <ChevronRight size={24} className="text-[#004AAE]" />
+          </button>
         </div>
 
-        {visibleImages.length < images.length && (
-          <div className="text-center mt-8">
+        <div className="flex justify-center mt-4 overflow-x-auto">
+          {images.map((_, index) => (
             <button
-              onClick={loadMore}
-              className="bg-[#004AAE] text-white px-6 py-3 rounded-full hover:bg-[#003388] transition-colors duration-300 flex items-center mx-auto"
-            >
-              {language === "en" ? "Load More" : "Cargar Más"}
-              <ChevronDown size={20} className="ml-2" />
-            </button>
-          </div>
-        )}
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`w-3 h-3 rounded-full mx-1 flex-shrink-0 ${
+                index === currentIndex ? "bg-[#004AAE]" : "bg-gray-300"
+              }`}
+            />
+          ))}
+        </div>
       </div>
       {modalImage && (
         <ImageModal image={modalImage} onClose={() => setModalImage(null)} />
