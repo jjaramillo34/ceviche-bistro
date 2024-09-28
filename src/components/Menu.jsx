@@ -1,12 +1,21 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, FileText, X } from "lucide-react";
+import { Document, Page, pdfjs } from "react-pdf";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import "react-pdf/dist/esm/Page/TextLayer.css";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Set the worker source for react-pdf
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url
+).toString();
 
 const menuItems = [
   {
@@ -165,8 +174,67 @@ const PrevArrow = ({ onClick }) => (
   </button>
 );
 
+const PDFMenuViewer = ({ language, onClose }) => {
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold text-[#004AAE]">
+            {language === "en" ? "Full Menu" : "Menú Completo"}
+          </h2>
+          <button
+            onClick={onClose}
+            className="text-[#004AAE] hover:text-[#DDC36B]"
+          >
+            <X size={24} />
+          </button>
+        </div>
+        <Document
+          file="/img/menu.pdf"
+          onLoadSuccess={onDocumentLoadSuccess}
+          error={
+            <div className="text-red-500">
+              {language === "en"
+                ? "Failed to load PDF. Please try again later."
+                : "No se pudo cargar el PDF. Por favor, inténtelo de nuevo más tarde."}
+            </div>
+          }
+          loading={
+            <div className="text-[#004AAE]">
+              {language === "en" ? "Loading PDF..." : "Cargando PDF..."}
+            </div>
+          }
+        >
+          {Array.from(new Array(numPages), (el, index) => (
+            <Page
+              key={`page_${index + 1}`}
+              pageNumber={index + 1}
+              renderTextLayer={false}
+              renderAnnotationLayer={false}
+              className="mb-4"
+            />
+          ))}
+        </Document>
+        <p className="text-center mt-4">
+          {language === "en"
+            ? `Page ${pageNumber} of ${numPages}`
+            : `Página ${pageNumber} de ${numPages}`}
+        </p>
+      </div>
+    </div>
+  );
+};
+
 const Menu = ({ language }) => {
   const titleRef = useRef(null);
+  const [isPDFOpen, setIsPDFOpen] = useState(false);
 
   useEffect(() => {
     gsap.from(titleRef.current, {
@@ -229,7 +297,22 @@ const Menu = ({ language }) => {
             ))}
           </Slider>
         </div>
+        <div className="text-center mt-12">
+          <button
+            onClick={() => setIsPDFOpen(true)}
+            className="bg-[#DDC36B] text-[#333333] px-6 py-3 rounded-full text-xl font-semibold hover:bg-[#C4A95D] transition-colors duration-300 flex items-center mx-auto"
+          >
+            <FileText size={24} className="mr-2" />
+            {language === "en" ? "View Full Menu PDF" : "Ver Menú Completo PDF"}
+          </button>
+        </div>
       </div>
+      {isPDFOpen && (
+        <PDFMenuViewer
+          language={language}
+          onClose={() => setIsPDFOpen(false)}
+        />
+      )}
     </section>
   );
 };
