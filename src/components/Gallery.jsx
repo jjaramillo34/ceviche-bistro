@@ -9,9 +9,19 @@ import {
   MessageCircle,
   Share2,
   Filter,
+  FileText,
 } from "lucide-react";
+import { Document, Page, pdfjs } from "react-pdf";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import "react-pdf/dist/esm/Page/TextLayer.css";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Set the worker source for react-pdf
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url
+).toString();
 
 const eventHashtags = [
   "#CevicheFiesta",
@@ -81,11 +91,70 @@ const ImageModal = ({ image, onClose }) => {
   );
 };
 
+const PDFMenuViewer = ({ language, onClose }) => {
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold text-[#004AAE]">
+            {language === "en" ? "Full Menu" : "Menú Completo"}
+          </h2>
+          <button
+            onClick={onClose}
+            className="text-[#004AAE] hover:text-[#DDC36B]"
+          >
+            <X size={24} />
+          </button>
+        </div>
+        <Document
+          file="/img/menu.pdf"
+          onLoadSuccess={onDocumentLoadSuccess}
+          error={
+            <div className="text-red-500">
+              {language === "en"
+                ? "Failed to load PDF. Please try again later."
+                : "No se pudo cargar el PDF. Por favor, inténtelo de nuevo más tarde."}
+            </div>
+          }
+          loading={
+            <div className="text-[#004AAE]">
+              {language === "en" ? "Loading PDF..." : "Cargando PDF..."}
+            </div>
+          }
+        >
+          {Array.from(new Array(numPages), (el, index) => (
+            <Page
+              key={`page_${index + 1}`}
+              pageNumber={index + 1}
+              renderTextLayer={false}
+              renderAnnotationLayer={false}
+              className="mb-4"
+            />
+          ))}
+        </Document>
+        <p className="text-center mt-4">
+          {language === "en"
+            ? `Page ${pageNumber} of ${numPages}`
+            : `Página ${pageNumber} de ${numPages}`}
+        </p>
+      </div>
+    </div>
+  );
+};
+
 const Gallery = ({ language }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [modalImage, setModalImage] = useState(null);
   const [visibleImages, setVisibleImages] = useState(images.slice(0, 9));
   const [filter, setFilter] = useState("all");
+  const [isPDFOpen, setIsPDFOpen] = useState(false);
 
   const loadMore = () => {
     setVisibleImages(images.slice(0, visibleImages.length + 9));
@@ -102,6 +171,18 @@ const Gallery = ({ language }) => {
     }
   };
 
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === visibleImages.length - 1 ? 0 : prevIndex + 1
+    );
+  }, [visibleImages]);
+
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? visibleImages.length - 1 : prevIndex - 1
+    );
+  }, [visibleImages]);
+
   useEffect(() => {
     gsap.from(".gallery-item", {
       opacity: 0,
@@ -116,6 +197,11 @@ const Gallery = ({ language }) => {
       },
     });
   }, [visibleImages]);
+
+  useEffect(() => {
+    const interval = setInterval(nextSlide, 5000);
+    return () => clearInterval(interval);
+  }, [nextSlide]);
 
   return (
     <section
@@ -141,7 +227,7 @@ const Gallery = ({ language }) => {
                 : "bg-white text-[#004AAE]"
             }`}
           >
-            All
+            {language === "en" ? "All" : "Todos"}
           </button>
           <button
             onClick={() => filterImages("food")}
@@ -151,7 +237,7 @@ const Gallery = ({ language }) => {
                 : "bg-white text-[#004AAE]"
             }`}
           >
-            Food
+            {language === "en" ? "Food" : "Comida"}
           </button>
           <button
             onClick={() => filterImages("event")}
@@ -161,7 +247,7 @@ const Gallery = ({ language }) => {
                 : "bg-white text-[#004AAE]"
             }`}
           >
-            Events
+            {language === "en" ? "Events" : "Eventos"}
           </button>
           <button
             onClick={() => filterImages("people")}
@@ -171,7 +257,38 @@ const Gallery = ({ language }) => {
                 : "bg-white text-[#004AAE]"
             }`}
           >
-            People
+            {language === "en" ? "People" : "Personas"}
+          </button>
+        </div>
+
+        <div className="relative mb-12">
+          <div className="overflow-hidden">
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            >
+              {visibleImages.map((image, index) => (
+                <div key={index} className="w-full flex-shrink-0">
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-96 object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          <button
+            onClick={prevSlide}
+            className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full"
+          >
+            <ChevronRight size={24} />
           </button>
         </div>
 
@@ -209,19 +326,32 @@ const Gallery = ({ language }) => {
           ))}
         </div>
 
-        {visibleImages.length < images.length && (
-          <div className="text-center mt-8">
+        <div className="flex justify-center mt-8 space-x-4">
+          {visibleImages.length < images.length && (
             <button
               onClick={loadMore}
               className="bg-[#004AAE] text-white px-6 py-2 rounded-full hover:bg-[#003388] transition-colors duration-300"
             >
               {language === "en" ? "Load More" : "Cargar Más"}
             </button>
-          </div>
-        )}
+          )}
+          <button
+            onClick={() => setIsPDFOpen(true)}
+            className="bg-[#DDC36B] text-[#333333] px-6 py-2 rounded-full hover:bg-[#C4A95D] transition-colors duration-300 flex items-center"
+          >
+            <FileText size={20} className="mr-2" />
+            {language === "en" ? "View Menu PDF" : "Ver Menú PDF"}
+          </button>
+        </div>
       </div>
       {modalImage && (
         <ImageModal image={modalImage} onClose={() => setModalImage(null)} />
+      )}
+      {isPDFOpen && (
+        <PDFMenuViewer
+          language={language}
+          onClose={() => setIsPDFOpen(false)}
+        />
       )}
     </section>
   );

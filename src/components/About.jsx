@@ -1,28 +1,27 @@
 import React, { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import ownerImage from "/img/john.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const About = ({ language }) => {
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState("who-we-are");
   const sectionRef = useRef(null);
   const imageRef = useRef(null);
   const contentRef = useRef(null);
   const missionRef = useRef(null);
   const featuresRef = useRef(null);
 
-  const descriptions = [
-    {
+  const descriptions = {
+    "who-we-are": {
       en: "Ceviche Bistro is more than just a catering service; it's a culinary journey through the vibrant flavors of Peru. Founded by Chef John Lopez, our company brings authentic Peruvian cuisine to your events, combining traditional recipes with innovative techniques. From intimate gatherings to large-scale corporate events, we offer a range of services tailored to make your experience unforgettable.",
       es: "Ceviche Bistro es más que un simple servicio de catering; es un viaje culinario a través de los vibrantes sabores del Perú. Fundada por el Chef John Lopez, nuestra empresa lleva auténtica cocina peruana a tus eventos, combinando recetas tradicionales con técnicas innovadoras. Desde reuniones íntimas hasta eventos corporativos a gran escala, ofrecemos una gama de servicios adaptados para hacer tu experiencia inolvidable.",
     },
-    {
+    "what-we-offer": {
       en: "At Ceviche Bistro, we offer a comprehensive range of catering services designed to meet all your culinary needs. Our offerings include elegant buffets featuring a variety of Peruvian dishes, convenient takeout options for smaller gatherings, and expertly crafted tasting menus that take your guests on a gastronomic tour of Peru. We also provide personalized menu planning, on-site chefs for live cooking demonstrations, and full-service event planning to ensure every detail of your event is perfect.",
       es: "En Ceviche Bistro, ofrecemos una gama completa de servicios de catering diseñados para satisfacer todas tus necesidades culinarias. Nuestras ofertas incluyen elegantes buffets con una variedad de platos peruanos, opciones convenientes para llevar para reuniones más pequeñas, y menús de degustación expertamente elaborados que llevan a tus invitados en un tour gastronómico por el Perú. También ofrecemos planificación de menús personalizados, chefs en el lugar para demostraciones de cocina en vivo, y planificación completa de eventos para asegurar que cada detalle de tu evento sea perfecto.",
     },
-  ];
+  };
 
   const ownerBio = {
     en: "Chef John Lopez, the heart and soul of Ceviche Bistro, brings over 20 years of culinary expertise to every dish. Born in Arequipa, Peru, John's passion for cooking was ignited in his grandmother's kitchen, where he first learned the secrets of traditional Peruvian cuisine. His journey from the volcanic landscapes of Arequipa to the bustling streets of New York is a testament to his dedication to the culinary arts. After honing his skills in renowned restaurants across Peru, John took a leap of faith and moved to New York, where he further refined his techniques in some of the city's most prestigious kitchens. Today, with Ceviche Bistro, he fulfills his dream of sharing the authentic flavors of his homeland with a modern twist. John's cuisine is a vibrant fusion of his classical training, his Arequipeñan roots, and his love for New York's diverse food scene. Each dish tells a story of tradition, innovation, and passion, creating unforgettable dining experiences that transport our clients straight to the heart of Peru.",
@@ -60,71 +59,73 @@ const About = ({ language }) => {
     const missionElement = missionRef.current;
     const featuresElement = featuresRef.current;
 
-    gsap.fromTo(
-      image,
-      { opacity: 0, x: -50 },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 1,
-        scrollTrigger: {
-          trigger: section,
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
+    if (section && image && content && missionElement && featuresElement) {
+      gsap.fromTo(
+        image,
+        { opacity: 0, x: -50 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 1,
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
 
-    gsap.fromTo(
-      content.children,
-      { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        stagger: 0.2,
-        scrollTrigger: {
-          trigger: section,
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
+      gsap.fromTo(
+        content.children,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
 
-    gsap.fromTo(
-      missionElement,
-      { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        scrollTrigger: {
-          trigger: missionElement,
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
+      gsap.fromTo(
+        missionElement,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          scrollTrigger: {
+            trigger: missionElement,
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
 
-    gsap.fromTo(
-      featuresElement.children,
-      { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        stagger: 0.2,
-        scrollTrigger: {
-          trigger: featuresElement,
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
+      gsap.fromTo(
+        featuresElement.children,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: featuresElement,
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    }
 
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
@@ -148,50 +149,52 @@ const About = ({ language }) => {
             ? "Experience the passion behind Ceviche Bistro"
             : "Experimenta la pasión detrás de Ceviche Bistro"}
         </p>
-        <div className="flex flex-col lg:flex-row items-center bg-white rounded-lg shadow-2xl p-8 mb-16">
-          <div ref={imageRef} className="lg:w-1/3 mb-8 lg:mb-0">
-            <img
-              src={ownerImage}
-              alt="Chef John Lopez - Owner of Ceviche Bistro"
-              className="rounded-lg shadow-xl transform hover:scale-105 transition duration-300"
-            />
-          </div>
-          <div ref={contentRef} className="lg:w-2/3 lg:pl-12">
-            <h3 className="text-3xl font-semibold mb-6 text-[#004AAE]">
-              {language === "en"
-                ? "Meet Chef John Lopez"
-                : "Conoce al Chef John Lopez"}
-            </h3>
-            <p className="text-lg mb-6 text-[#333333] leading-relaxed">
-              {ownerBio[language]}
-            </p>
-            <div className="mb-6">
-              <div className="flex mb-4">
-                <button
-                  onClick={() => setActiveTab(0)}
-                  className={`px-6 py-3 mr-2 rounded-t-lg font-semibold transition duration-300 ${
-                    activeTab === 0
-                      ? "bg-[#004AAE] text-white"
-                      : "bg-gray-200 text-[#333333] hover:bg-[#DDC36B] hover:text-white"
-                  }`}
-                >
-                  {language === "en" ? "Who We Are" : "Quiénes Somos"}
-                </button>
-                <button
-                  onClick={() => setActiveTab(1)}
-                  className={`px-6 py-3 rounded-t-lg font-semibold transition duration-300 ${
-                    activeTab === 1
-                      ? "bg-[#004AAE] text-white"
-                      : "bg-gray-200 text-[#333333] hover:bg-[#DDC36B] hover:text-white"
-                  }`}
-                >
-                  {language === "en" ? "What We Offer" : "Qué Ofrecemos"}
-                </button>
-              </div>
-              <div className="bg-[#F5F5F5] p-6 rounded-b-lg rounded-tr-lg shadow-md">
-                <p className="text-lg mb-4 text-[#333333] leading-relaxed">
-                  {descriptions[activeTab][language]}
-                </p>
+        <div className="bg-white rounded-lg shadow-2xl p-8 mb-16">
+          <div className="flex flex-col lg:flex-row items-center">
+            <div ref={imageRef} className="lg:w-1/3 mb-8 lg:mb-0">
+              <img
+                src="/img/john.jpg"
+                alt="Chef John Lopez - Owner of Ceviche Bistro"
+                className="rounded-lg shadow-xl transform hover:scale-105 transition duration-300"
+              />
+            </div>
+            <div ref={contentRef} className="lg:w-2/3 lg:pl-12">
+              <h3 className="text-3xl font-semibold mb-6 text-[#004AAE]">
+                {language === "en"
+                  ? "Meet Chef John Lopez"
+                  : "Conoce al Chef John Lopez"}
+              </h3>
+              <p className="text-lg mb-6 text-[#333333] leading-relaxed">
+                {ownerBio[language]}
+              </p>
+              <div className="mb-6">
+                <div className="flex mb-4">
+                  <button
+                    onClick={() => setActiveTab("who-we-are")}
+                    className={`px-6 py-3 mr-2 rounded-t-lg font-semibold transition duration-300 ${
+                      activeTab === "who-we-are"
+                        ? "bg-[#004AAE] text-white"
+                        : "bg-gray-200 text-[#333333] hover:bg-[#DDC36B] hover:text-white"
+                    }`}
+                  >
+                    {language === "en" ? "Who We Are" : "Quiénes Somos"}
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("what-we-offer")}
+                    className={`px-6 py-3 rounded-t-lg font-semibold transition duration-300 ${
+                      activeTab === "what-we-offer"
+                        ? "bg-[#004AAE] text-white"
+                        : "bg-gray-200 text-[#333333] hover:bg-[#DDC36B] hover:text-white"
+                    }`}
+                  >
+                    {language === "en" ? "What We Offer" : "Qué Ofrecemos"}
+                  </button>
+                </div>
+                <div className="bg-[#F5F5F5] p-6 rounded-b-lg rounded-tr-lg shadow-md">
+                  <p className="text-lg mb-4 text-[#333333] leading-relaxed">
+                    {descriptions[activeTab][language]}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
