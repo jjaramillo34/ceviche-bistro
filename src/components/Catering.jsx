@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
 import { Utensils, Users, Truck, Calendar } from "lucide-react";
 import { gsap } from "gsap";
 import { TextPlugin } from "gsap/TextPlugin";
@@ -14,7 +15,16 @@ const CateringFeature = ({ icon: Icon, title, description }) => (
   </div>
 );
 
+CateringFeature.propTypes = {
+  icon: PropTypes.elementType.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+};
+
 const Catering = ({ language }) => {
+  Catering.propTypes = {
+    language: PropTypes.string.isRequired,
+  };
   const titleRef = useRef(null);
   const descriptionRef = useRef(null);
   const featuresRef = useRef(null);
@@ -126,7 +136,7 @@ const Catering = ({ language }) => {
           className="text-5xl font-bold text-center mb-8 text-[#004AAE] animate-fadeIn"
           aria-live="polite"
         ></h2>
-        <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-96 h-1 bg-[#004AAE]"></span>
+
         <div className="max-w-3xl mx-auto text-center mb-16">
           <p
             ref={descriptionRef}
