@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -58,7 +59,15 @@ const AnimatedTitle = ({ children, className }) => {
   );
 };
 
+AnimatedTitle.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+};
+
 const Contact = ({ language }) => {
+  Contact.propTypes = {
+    language: PropTypes.string.isRequired,
+  };
   const formRef = useRef(null);
   const infoRef = useRef(null);
   const sectionRef = useRef(null);

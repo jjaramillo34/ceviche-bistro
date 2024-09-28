@@ -7,9 +7,59 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(TextPlugin, ScrollTrigger);
 
+const AnimatedTitle = ({ children, className }) => {
+  const titleRef = useRef(null);
+  const lineLeftRef = useRef(null);
+  const lineRightRef = useRef(null);
+
+  useEffect(() => {
+    gsap.from(titleRef.current, {
+      opacity: 0,
+      y: -30,
+      duration: 0.8,
+      ease: "power3.out",
+    });
+
+    gsap.from([lineLeftRef.current, lineRightRef.current], {
+      width: 0,
+      duration: 0.6,
+      delay: 0.4,
+      ease: "power2.inOut",
+    });
+  }, []);
+
+  return (
+    <div className={`relative text-center ${className}`}>
+      <h2
+        ref={titleRef}
+        className="text-3xl sm:text-4xl md:text-5xl font-bold inline-block px-4 relative"
+      >
+        {children}
+        <span
+          ref={lineLeftRef}
+          className="absolute left-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform -translate-x-full"
+          style={{ width: "50px" }}
+        ></span>
+        <span
+          ref={lineRightRef}
+          className="absolute right-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform translate-x-full"
+          style={{ width: "50px" }}
+        ></span>
+      </h2>
+    </div>
+  );
+};
+
+AnimatedTitle.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+};
+
 const CateringFeature = ({ icon: Icon, title, description }) => (
-  <div className="flex flex-col items-center text-center p-8 bg-white rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300">
-    <Icon size={48} className="text-[#004AAE] mb-6" aria-hidden="true" />
+  <div className="flex flex-col items-center text-center p-8 bg-white rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 border border-[#004AAE] border-opacity-20">
+    <div className="w-20 h-20 rounded-full bg-[#004AAE] bg-opacity-10 flex items-center justify-center mb-6">
+      <Icon size={36} className="text-[#004AAE]" aria-hidden="true" />
+    </div>
     <h3 className="text-2xl font-semibold mb-4 text-[#004AAE]">{title}</h3>
     <p className="text-[#333333] text-lg">{description}</p>
   </div>
@@ -22,10 +72,6 @@ CateringFeature.propTypes = {
 };
 
 const Catering = ({ language }) => {
-  Catering.propTypes = {
-    language: PropTypes.string.isRequired,
-  };
-  const titleRef = useRef(null);
   const descriptionRef = useRef(null);
   const featuresRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -69,12 +115,6 @@ const Catering = ({ language }) => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.to(titleRef.current, {
-        duration: 2,
-        text: language === "en" ? "Catering Services" : "Servicios de Catering",
-        ease: "power1.inOut",
-      });
-
       gsap.to(descriptionRef.current, {
         duration: 3,
         text:
@@ -131,11 +171,9 @@ const Catering = ({ language }) => {
       className="py-24 bg-gradient-to-br from-[#E6F3FF] to-[#F5F5F5]"
     >
       <div className="container mx-auto px-4">
-        <h2
-          ref={titleRef}
-          className="text-5xl font-bold text-center mb-8 text-[#004AAE] animate-fadeIn"
-          aria-live="polite"
-        ></h2>
+        <AnimatedTitle className="mb-8 text-[#004AAE]">
+          {language === "en" ? "Catering Services" : "Servicios de Catering"}
+        </AnimatedTitle>
 
         <div className="max-w-3xl mx-auto text-center mb-16">
           <p
@@ -166,6 +204,10 @@ const Catering = ({ language }) => {
       </div>
     </section>
   );
+};
+
+Catering.propTypes = {
+  language: PropTypes.oneOf(["en", "es"]).isRequired,
 };
 
 export default Catering;
