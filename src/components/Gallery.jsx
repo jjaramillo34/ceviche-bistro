@@ -32,7 +32,7 @@ const eventHashtags = [
   "LatinoFlavors",
 ];
 
-const images = Array.from({ length: 15 }, (_, i) => ({
+const images = Array.from({ length: 54 }, (_, i) => ({
   src: `/img/image${i + 1}.jpeg`,
   alt: eventHashtags[i],
   likes: Math.floor(Math.random() * 1000),
