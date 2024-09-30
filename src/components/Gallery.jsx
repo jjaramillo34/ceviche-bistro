@@ -2,17 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  X,
-  Heart,
-  MessageCircle,
-  Share2,
-  ChevronLeft,
-  ChevronRight,
-  Hash,
-} from "lucide-react";
+import { TextPlugin } from "gsap/TextPlugin";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { X, Heart, MessageCircle, Hash } from "lucide-react";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
 const eventHashtags = [
   "CevicheFiesta",
@@ -34,7 +32,7 @@ const eventHashtags = [
 
 const images = Array.from({ length: 54 }, (_, i) => ({
   src: `/img/image${i + 1}.jpeg`,
-  alt: eventHashtags[i],
+  alt: eventHashtags[i % eventHashtags.length],
   likes: Math.floor(Math.random() * 1000),
   comments: Math.floor(Math.random() * 100),
 }));
@@ -124,30 +122,45 @@ ImageModal.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-const Gallery = ({ language }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [modalImage, setModalImage] = useState(null);
-  const sliderRef = useRef(null);
-  const timeoutRef = useRef(null);
-
-  const resetTimeout = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-  };
+const AnimatedText = ({ text }) => {
+  const textRef = useRef(null);
 
   useEffect(() => {
-    resetTimeout();
-    timeoutRef.current = setTimeout(() => {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === images.length - 3 ? 0 : prevIndex + 1
-      );
-    }, 5000);
+    const animation = gsap.timeline({
+      scrollTrigger: {
+        trigger: textRef.current,
+        start: "top 80%",
+        end: "bottom 20%",
+        toggleActions: "play none none reverse",
+      },
+    });
+
+    animation
+      .from(textRef.current, { opacity: 0, y: 20, duration: 0.5 })
+      .to(textRef.current, {
+        duration: 1.5,
+        text: {
+          value: text,
+          delimiter: "",
+        },
+        ease: "none",
+      });
 
     return () => {
-      resetTimeout();
+      animation.kill();
     };
-  }, [currentIndex]);
+  }, [text]);
+
+  return <span ref={textRef}></span>;
+};
+
+AnimatedText.propTypes = {
+  text: PropTypes.string.isRequired,
+};
+
+const Gallery = ({ language }) => {
+  const [modalImage, setModalImage] = useState(null);
+  const sliderRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -166,18 +179,6 @@ const Gallery = ({ language }) => {
 
     return () => ctx.revert();
   }, []);
-
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === images.length - 3 ? 0 : prevIndex + 1
-    );
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 3 : prevIndex - 1
-    );
-  };
 
   return (
     <section
@@ -198,67 +199,57 @@ const Gallery = ({ language }) => {
           ref={sliderRef}
           className="relative w-full h-[400px] md:h-[600px] overflow-hidden rounded-lg shadow-2xl"
         >
-          <div
-            className="flex h-full transition-transform duration-500 ease-in-out"
-            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          <Swiper
+            modules={[Navigation, Pagination, Autoplay]}
+            spaceBetween={20}
+            slidesPerView={1}
+            navigation={{
+              prevEl: ".swiper-button-prev",
+              nextEl: ".swiper-button-next",
+            }}
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 5000, disableOnInteraction: false }}
+            loop={true}
+            breakpoints={{
+              640: {
+                slidesPerView: 2,
+              },
+              1024: {
+                slidesPerView: 3,
+              },
+            }}
           >
             {images.map((image, index) => (
-              <div
-                key={index}
-                className="w-full md:w-1/3 flex-shrink-0 p-2 transition-all duration-500 ease-in-out"
-                onClick={() => setModalImage(image)}
-              >
-                <img
-                  src={image.src}
-                  alt={image.alt}
-                  className="w-full h-full object-cover rounded-lg shadow-md"
-                />
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent text-white">
-                  <p className="text-center font-semibold text-lg mb-2">
-                    #{image.alt}
-                  </p>
-                  <div className="flex justify-center items-center space-x-4">
-                    <span className="flex items-center text-red-500">
-                      <Heart size={16} className="mr-1" /> {image.likes}
-                    </span>
-                    <span className="flex items-center text-blue-600">
-                      <MessageCircle size={16} className="mr-1" />{" "}
-                      {image.comments}
-                    </span>
+              <SwiperSlide key={index}>
+                <div
+                  className="relative h-full cursor-pointer"
+                  onClick={() => setModalImage(image)}
+                >
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    className="w-full h-full object-cover rounded-lg shadow-md"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent text-white">
+                    <p className="text-center font-semibold text-lg mb-2">
+                      #{image.alt}
+                    </p>
+                    <div className="flex justify-center items-center space-x-4">
+                      <span className="flex items-center text-red-500">
+                        <Heart size={16} className="mr-1" /> {image.likes}
+                      </span>
+                      <span className="flex items-center text-blue-600">
+                        <MessageCircle size={16} className="mr-1" />{" "}
+                        {image.comments}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </SwiperSlide>
             ))}
-          </div>
-          <button
-            onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-white bg-opacity-50 rounded-full shadow-md hover:bg-opacity-75 transition-all duration-300 focus:outline-none"
-            aria-label="Previous image"
-          >
-            <ChevronLeft size={24} className="text-[#004AAE]" />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-white bg-opacity-50 rounded-full shadow-md hover:bg-opacity-75 transition-all duration-300 focus:outline-none"
-            aria-label="Next image"
-          >
-            <ChevronRight size={24} className="text-[#004AAE]" />
-          </button>
-        </div>
-
-        <div className="flex justify-center mt-8 overflow-x-auto">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`w-3 h-3 rounded-full mx-1 flex-shrink-0 transition-all duration-300 ${
-                index === currentIndex
-                  ? "bg-[#004AAE] scale-125"
-                  : "bg-gray-300 hover:bg-[#FFD700]"
-              }`}
-              aria-label={`Go to image ${index + 1}`}
-            />
-          ))}
+          </Swiper>
+          <div className="swiper-button-prev !text-[#FFD700] !bg-white !w-12 !h-12 !rounded-full !shadow-md"></div>
+          <div className="swiper-button-next !text-[#FFD700] !bg-white !w-12 !h-12 !rounded-full !shadow-md"></div>
         </div>
 
         <div className="mt-16">
@@ -273,7 +264,7 @@ const Gallery = ({ language }) => {
               >
                 <span className="text-[#004AAE] font-semibold group-hover:text-[#FFD700]">
                   <Hash size={16} className="inline-block mr-1" />
-                  {hashtag}
+                  <AnimatedText text={hashtag} />
                 </span>
               </div>
             ))}
