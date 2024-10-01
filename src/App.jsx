@@ -9,11 +9,11 @@ import Footer from "./components/Footer";
 import Catering from "./components/Catering";
 import Gallery from "./components/Gallery";
 import Stats from "./components/Stats";
+import Testimonials from "./components/Testimonials";
 import ScrollNavigation from "./components/ScrollNavigation";
-import PDFMenuViewer from "./components/PDFMenuViewer";
 
 function App() {
-  const [language, setLanguage] = useState("en");
+  const [language, setLanguage] = useState("es");
 
   const toggleLanguage = () => {
     setLanguage((prevLang) => (prevLang === "en" ? "es" : "en"));
@@ -37,6 +37,9 @@ function App() {
         </section>
         <section id="stats">
           <Stats language={language} />
+        </section>
+        <section id="testimonials">
+          <Testimonials language={language} />
         </section>
         <section id="contact">
           <Contact language={language} />

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import {
   Menu,
   X,
@@ -8,78 +9,128 @@ import {
   Cake,
   Image,
   Phone,
+  BarChart,
 } from "lucide-react";
 
 const Header = ({ language, toggleLanguage }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const navItems = [
     { href: "#about", enText: "About", esText: "Sobre Nosotros", icon: Home },
-    { href: "#menu", enText: "Menu", esText: "Menú", icon: UtensilsCrossed },
     { href: "#catering", enText: "Catering", esText: "Catering", icon: Cake },
+    { href: "#menu", enText: "Menu", esText: "Menú", icon: UtensilsCrossed },
     { href: "#gallery", enText: "Gallery", esText: "Galería", icon: Image },
     { href: "#contact", enText: "Contact", esText: "Contacto", icon: Phone },
+    { href: "#stats", enText: "Stats", esText: "Estadísticas", icon: BarChart },
   ];
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-white bg-opacity-95 shadow-md">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="logo z-20">
-          <a href="#" className="text-2xl font-bold text-[#004AAE]">
-            CevicheBistro
-          </a>
-        </div>
-        <div className="lg:hidden z-20">
-          <button onClick={toggleMenu} className="text-[#004AAE] p-2">
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-        <nav
-          className={`
-          ${isMenuOpen ? "fixed inset-0 bg-white bg-opacity-95" : "hidden"}
-          lg:static lg:block lg:bg-transparent
-        `}
-        >
-          <ul
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-white shadow-md"
+          : "bg-gradient-to-b from-black/50 to-transparent"
+      }`}
+    >
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex justify-between items-center">
+          <div className="logo z-20">
+            <a
+              href="#"
+              className={`text-2xl font-bold ${
+                isScrolled ? "text-[#004AAE]" : "text-white"
+              } transition-colors duration-300`}
+            >
+              CevicheBistro
+            </a>
+          </div>
+          <div className="lg:hidden z-20">
+            <button
+              onClick={toggleMenu}
+              className={`p-2 rounded-full transition-colors duration-300 ${
+                isScrolled
+                  ? "text-[#004AAE] hover:bg-[#FFD700]"
+                  : "text-white hover:bg-white/20"
+              }`}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+          <nav
             className={`
-            flex flex-col lg:flex-row items-center justify-center
-            h-full lg:h-auto space-y-6 lg:space-y-0 lg:space-x-6
-            ${isMenuOpen ? "pt-20" : ""}
+            ${isMenuOpen ? "fixed inset-0 bg-white bg-opacity-95" : "hidden"}
+            lg:static lg:flex lg:bg-transparent
           `}
           >
-            {navItems.map((item, index) => (
-              <li key={index}>
-                <a
-                  href={item.href}
-                  className="flex items-center text-[#333333] hover:text-[#0066CC] transition duration-300"
-                  onClick={() => setIsMenuOpen(false)}
+            <ul
+              className={`
+              flex flex-col lg:flex-row items-center justify-center
+              h-full lg:h-auto space-y-4 lg:space-y-0 lg:space-x-6
+              ${isMenuOpen ? "pt-20" : ""}
+            `}
+            >
+              {navItems.map((item, index) => (
+                <li key={index}>
+                  <a
+                    href={item.href}
+                    className={`flex items-center px-3 py-2 rounded-full transition duration-300 ${
+                      isScrolled
+                        ? "text-[#333333] hover:text-[#004AAE] hover:bg-[#FFD700]"
+                        : "text-white hover:bg-white/20"
+                    }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <item.icon size={20} className="mr-2" />
+                    <span>{language === "en" ? item.enText : item.esText}</span>
+                  </a>
+                </li>
+              ))}
+              <li>
+                <button
+                  onClick={() => {
+                    toggleLanguage();
+                    setIsMenuOpen(false);
+                  }}
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-full transition duration-300 ${
+                    isScrolled
+                      ? "bg-[#FFD700] text-[#004AAE] hover:bg-[#004AAE] hover:text-[#FFD700]"
+                      : "bg-white/20 text-white hover:bg-white hover:text-[#004AAE]"
+                  }`}
                 >
-                  <item.icon size={20} className="mr-2" />
-                  <span>{language === "en" ? item.enText : item.esText}</span>
-                </a>
+                  <Globe size={18} />
+                  <span>{language === "en" ? "ES" : "EN"}</span>
+                </button>
               </li>
-            ))}
-            <li>
-              <button
-                onClick={() => {
-                  toggleLanguage();
-                  setIsMenuOpen(false);
-                }}
-                className="flex items-center space-x-2 bg-[#FFD700] text-white px-3 py-2 rounded-full hover:bg-[#0066CC] transition duration-300"
-              >
-                <Globe size={18} />
-                <span>{language === "en" ? "ES" : "EN"}</span>
-              </button>
-            </li>
-          </ul>
-        </nav>
+            </ul>
+          </nav>
+        </div>
       </div>
+      <div
+        className={`absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#FFD700] via-[#004AAE] to-[#FFD700] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ${
+          isScrolled ? "opacity-100" : "opacity-0"
+        }`}
+      ></div>
     </header>
   );
+};
+
+Header.propTypes = {
+  language: PropTypes.oneOf(["en", "es"]).isRequired,
+  toggleLanguage: PropTypes.func.isRequired,
 };
 
 export default Header;

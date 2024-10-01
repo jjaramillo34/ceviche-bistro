@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -10,6 +10,7 @@ import {
   MapPin,
   Send,
   QrCode,
+  ExternalLink,
 } from "lucide-react";
 import instagramQR from "/img/instagram-qr.png";
 import facebookQR from "/img/facebook-qr.png";
@@ -64,14 +65,39 @@ AnimatedTitle.propTypes = {
   className: PropTypes.string,
 };
 
+const SocialQRCode = ({ platform, icon: Icon, qrCode }) => {
+  const [activeQR, setActiveQR] = useState(null);
+
+  return (
+    <div
+      className="flex items-center space-x-4 cursor-pointer"
+      onClick={() => setActiveQR(activeQR === platform ? null : platform)}
+    >
+      <Icon size={24} className="text-[#FFD700]" />
+      <span className="text-[#FFD700]">{platform}</span>
+      <QrCode size={24} className="text-[#FFD700]" />
+      {activeQR === platform && (
+        <img
+          src={qrCode}
+          alt={`${platform} QR Code`}
+          className="w-48 h-48 absolute right-10 top-20 mt-2 mr-2"
+        />
+      )}
+    </div>
+  );
+};
+
+SocialQRCode.propTypes = {
+  platform: PropTypes.string.isRequired,
+  icon: PropTypes.elementType.isRequired,
+  qrCode: PropTypes.string.isRequired,
+};
+
 const Contact = ({ language }) => {
-  Contact.propTypes = {
-    language: PropTypes.string.isRequired,
-  };
   const formRef = useRef(null);
   const infoRef = useRef(null);
+  const mapRef = useRef(null);
   const sectionRef = useRef(null);
-  const [activeQR, setActiveQR] = useState(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -99,6 +125,18 @@ const Contact = ({ language }) => {
         },
       });
 
+      gsap.from(mapRef.current, {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        scrollTrigger: {
+          trigger: mapRef.current,
+          start: "top 80%",
+          end: "bottom 20%",
+          toggleActions: "play none none none",
+        },
+      });
+
       // Animate form inputs on focus
       const inputs = formRef.current.querySelectorAll("input, textarea");
       inputs.forEach((input) => {
@@ -120,24 +158,6 @@ const Contact = ({ language }) => {
     console.log("Form submitted");
     // You can add a success message or redirect here
   };
-
-  const SocialQRCode = ({ platform, icon: Icon, qrCode }) => (
-    <div
-      className="flex items-center space-x-4 cursor-pointer"
-      onClick={() => setActiveQR(activeQR === platform ? null : platform)}
-    >
-      <Icon size={24} className="text-[#FFD700]" />
-      <span className="text-[#FFD700]">{platform}</span>
-      <QrCode size={24} className="text-[#FFD700]" />
-      {activeQR === platform && (
-        <img
-          src={qrCode}
-          alt={`${platform} QR Code`}
-          className="w-24 h-24 absolute right-0 top-0 mt-2 mr-2"
-        />
-      )}
-    </div>
-  );
 
   return (
     <section
@@ -229,11 +249,7 @@ const Contact = ({ language }) => {
                   href="mailto:cevichebistronyc@gmail.com"
                   className="hover:underline"
                 >
-                  <p>
-                    {language === "en"
-                      ? "cevichebistronyc@gmail.com"
-                      : "cevichebistronyc@gmail.com"}
-                  </p>
+                  <p>cevichebistronyc@gmail.com</p>
                 </a>
               </div>
               <div className="flex items-center">
@@ -269,9 +285,48 @@ const Contact = ({ language }) => {
             </p>
           </div>
         </div>
+        <div
+          ref={mapRef}
+          className="mt-12 bg-white rounded-lg shadow-2xl overflow-hidden"
+        >
+          <div className="p-4 bg-[#004AAE] text-white flex justify-between items-center">
+            <h3 className="text-xl font-semibold">
+              {language === "en" ? "Find Us Here" : "Encuéntranos Aquí"}
+            </h3>
+            <a
+              href="https://www.google.com/maps/place/40%C2%B044'30.3%22N+73%C2%B051'00.5%22W/@40.7417543,-73.8501362,17z/data=!3m1!4b1!4m4!3m3!8m2!3d40.741754!4d-73.8501362?entry=ttu"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center text-[#FFD700] hover:underline"
+            >
+              <span className="mr-2">
+                {language === "en"
+                  ? "View on Google Maps"
+                  : "Ver en Google Maps"}
+              </span>
+              <ExternalLink size={16} />
+            </a>
+          </div>
+          <div className="relative pb-[56.25%] h-0">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3022.9214324316645!2d-73.8501362!3d40.741754300000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNDDCsDQ0JzMwLjMiTiA3M8KwNTEnMDAuNSJX!5e0!3m2!1sen!2sus!4v1727794182041!5m2!1sen!2sus"
+              width="600"
+              height="450"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="absolute top-0 left-0 w-full h-full"
+            ></iframe>
+          </div>
+        </div>
       </div>
     </section>
   );
+};
+
+Contact.propTypes = {
+  language: PropTypes.oneOf(["en", "es"]).isRequired,
 };
 
 export default Contact;
