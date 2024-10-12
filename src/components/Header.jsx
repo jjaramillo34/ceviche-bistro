@@ -10,6 +10,7 @@ import {
   Image,
   Phone,
   BarChart,
+  MessageCircleHeartIcon,
 } from "lucide-react";
 
 const Header = ({ language, toggleLanguage }) => {
@@ -30,12 +31,18 @@ const Header = ({ language, toggleLanguage }) => {
   }, []);
 
   const navItems = [
-    { href: "#about", enText: "About", esText: "Sobre Nosotros", icon: Home },
+    { href: "#about", enText: "About", esText: "Acerca", icon: Home },
     { href: "#catering", enText: "Catering", esText: "Catering", icon: Cake },
     { href: "#menu", enText: "Menu", esText: "Menú", icon: UtensilsCrossed },
-    { href: "#gallery", enText: "Gallery", esText: "Galería", icon: Image },
+    {
+      href: "#testimonials",
+      enText: "Testimonials",
+      esText: "Testimonios",
+      icon: MessageCircleHeartIcon,
+    },
     { href: "#contact", enText: "Contact", esText: "Contacto", icon: Phone },
-    { href: "#stats", enText: "Stats", esText: "Estadísticas", icon: BarChart },
+    { href: "#stats", enText: "Stats", esText: "Stats", icon: BarChart },
+    { href: "#gallery", enText: "Gallery", esText: "Galería", icon: Image },
   ];
 
   return (
