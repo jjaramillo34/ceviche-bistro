@@ -56,10 +56,10 @@ const App = () => {
               <FeaturedDishes language={language} />
             </section>
             <section id="chefs-special">
-              <ChefsSpecial />
+              <ChefsSpecial language={language} />
             </section>
             <section id="customer-reviews">
-              <CustomerReviews />
+              <CustomerReviews language={language} />
             </section>
             <section id="stats">
               <Stats language={language} />

@@ -1,26 +1,30 @@
 import React from "react";
 
 const chefsSpecial = {
-  name: "Causa Rellena",
-  description:
-    "A delicious Peruvian dish made with yellow potatoes and filled with chicken salad.",
+  name: { en: "Causa Rellena", es: "Causa Rellena" },
+  description: {
+    en: "A delicious Peruvian dish made with yellow potatoes and filled with chicken salad.",
+    es: "Un delicioso plato peruano hecho con papas amarillas y relleno de ensalada de pollo.",
+  },
   image: "/img/causa.jpg",
 };
 
-const ChefsSpecial = () => {
+const ChefsSpecial = ({ language }) => {
   return (
     <section className="py-24 bg-background">
       <div className="container mx-auto px-4 text-center">
-        <h2 className="text-4xl font-bold text-primary mb-8">Chef's Special</h2>
+        <h2 className="text-4xl font-bold text-primary mb-8">
+          {language === "en" ? "Chef's Special" : "Especial del Chef"}
+        </h2>
         <img
           src={chefsSpecial.image}
-          alt={chefsSpecial.name}
+          alt={chefsSpecial.name[language]}
           className="w-full h-64 object-cover rounded-lg mb-4"
         />
         <h3 className="text-2xl font-semibold text-primary">
-          {chefsSpecial.name}
+          {chefsSpecial.name[language]}
         </h3>
-        <p className="text-gray-600">{chefsSpecial.description}</p>
+        <p className="text-gray-600">{chefsSpecial.description[language]}</p>
       </div>
     </section>
   );
