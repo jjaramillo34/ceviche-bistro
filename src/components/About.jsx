@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Users, Clock, MapPin, Star } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 

@@ -10,6 +10,9 @@ import Catering from "./components/Catering";
 import Gallery from "./components/Gallery";
 import Stats from "./components/Stats";
 import Testimonials from "./components/Testimonials";
+import FeaturedDishes from "./components/FeaturedDishes";
+import ChefsSpecial from "./components/ChefsSpecial";
+import CustomerReviews from "./components/CustomerReviews";
 import ScrollNavigation from "./components/ScrollNavigation";
 import { FloatingWhatsApp } from "react-floating-whatsapp";
 
@@ -18,10 +21,9 @@ const App = () => {
   const [language, setLanguage] = useState("es");
 
   useEffect(() => {
-    // Simulate a loading delay
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3000); // Adjust the duration as needed
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -49,6 +51,15 @@ const App = () => {
             </section>
             <section id="menu">
               <Menu language={language} />
+            </section>
+            <section id="featured-dishes">
+              <FeaturedDishes language={language} />
+            </section>
+            <section id="chefs-special">
+              <ChefsSpecial />
+            </section>
+            <section id="customer-reviews">
+              <CustomerReviews />
             </section>
             <section id="stats">
               <Stats language={language} />
