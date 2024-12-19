@@ -6,15 +6,15 @@ import facebookQR from "/img/facebook-qr.png";
 
 const SocialQRCode = ({ platform, icon: Icon, qrCode }) => (
   <div className="flex items-center space-x-2">
-    <Icon size={20} />
-    <span>{platform}</span>
+    <Icon size={20} className="text-accent" />
+    <span className="text-accent">{platform}</span>
     <img src={qrCode} alt={`${platform} QR Code`} className="w-12 h-12" />
   </div>
 );
 
 const Footer = ({ language }) => {
   return (
-    <footer className="bg-[#004AAE] text-white py-12">
+    <footer className="bg-primary text-white py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Column 1: Logo and Description */}
@@ -33,7 +33,7 @@ const Footer = ({ language }) => {
 
           {/* Column 2: Quick Links */}
           <div>
-            <h3 className="text-xl font-semibold mb-4 text-[#FFD700]">
+            <h3 className="text-xl font-semibold mb-4 text-accent">
               {language === "en" ? "Quick Links" : "Enlaces Rápidos"}
             </h3>
             <ul className="space-y-2">
@@ -47,7 +47,7 @@ const Footer = ({ language }) => {
                 <li key={index}>
                   <a
                     href={`#${item.toLowerCase().replace(/\s+/g, "")}`}
-                    className="hover:text-[#FFD700] transition duration-300"
+                    className="hover:text-accent transition duration-300"
                   >
                     {language === "en"
                       ? item
@@ -66,7 +66,7 @@ const Footer = ({ language }) => {
 
           {/* Column 3: Contact Information */}
           <div>
-            <h3 className="text-xl font-semibold mb-4 text-[#FFD700]">
+            <h3 className="text-xl font-semibold mb-4 text-accent">
               {language === "en" ? "Contact Us" : "Contáctanos"}
             </h3>
             <ul className="space-y-2">
@@ -87,7 +87,7 @@ const Footer = ({ language }) => {
 
           {/* Column 4: Social Media */}
           <div>
-            <h3 className="text-xl font-semibold mb-4 text-[#FFD700]">
+            <h3 className="text-xl font-semibold mb-4 text-accent">
               {language === "en" ? "Follow Us" : "Síguenos"}
             </h3>
             <div className="space-y-4">
@@ -111,7 +111,7 @@ const Footer = ({ language }) => {
         </div>
 
         {/* Copyright */}
-        <div className="mt-12 pt-8 border-t border-[#FFD700] text-center">
+        <div className="mt-12 pt-8 border-t border-accent text-center">
           <p className="text-[#F5F5F5]">
             &copy; {new Date().getFullYear()} CevicheBistro.{" "}
             {language === "en"

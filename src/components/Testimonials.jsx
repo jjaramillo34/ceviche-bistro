@@ -31,17 +31,17 @@ const AnimatedTitle = ({ children, className }) => {
     <div className={`relative text-center ${className}`}>
       <h2
         ref={titleRef}
-        className="text-3xl sm:text-4xl md:text-5xl font-bold inline-block px-4 relative"
+        className="text-4xl sm:text-5xl md:text-6xl font-extrabold inline-block px-4 relative text-primary"
       >
         {children}
         <span
           ref={lineLeftRef}
-          className="absolute left-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform -translate-x-full"
+          className="absolute left-0 bottom-0 h-1 bg-accent rounded-full transform -translate-x-full"
           style={{ width: "50px" }}
         ></span>
         <span
           ref={lineRightRef}
-          className="absolute right-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform translate-x-full"
+          className="absolute right-0 bottom-0 h-1 bg-accent rounded-full transform translate-x-full"
           style={{ width: "50px" }}
         ></span>
       </h2>
@@ -71,18 +71,18 @@ const TestimonialCard = ({ name, role, content, rating }) => {
       className="bg-white rounded-lg shadow-lg p-6 flex flex-col h-full"
     >
       <div className="flex items-center mb-4">
-        <Quote size={24} className="text-[#FFD700] mr-2" />
+        <Quote size={24} className="text-accent mr-2" />
         <div className="flex-grow" />
         <div className="flex items-center">
-          <span className="text-[#FFD700] font-bold mr-1">
+          <span className="text-accent font-bold mr-1">
             {rating.toFixed(1)}
           </span>
-          <Star size={16} className="text-[#FFD700]" fill="#FFD700" />
+          <Star size={16} className="text-accent" fill="#FFD700" />
         </div>
       </div>
       <p className="text-gray-600 mb-4 flex-grow">{content}</p>
       <div className="mt-auto">
-        <h4 className="font-bold text-[#004AAE]">{name}</h4>
+        <h4 className="font-bold text-primary">{name}</h4>
         <p className="text-sm text-gray-500">{role}</p>
       </div>
     </div>
@@ -165,7 +165,7 @@ const Testimonials = ({ language }) => {
           toggleActions: "play none none reverse",
         },
       });
-    }, sectionRef);
+    });
 
     return () => ctx.revert();
   }, []);
@@ -183,7 +183,7 @@ const Testimonials = ({ language }) => {
   return (
     <section
       ref={sectionRef}
-      className="py-24 bg-gradient-to-br from-[#004AAE] to-[#001F4D]"
+      className="py-24 bg-gradient-to-br from-primary to-[#001F4D]"
     >
       <div className="container mx-auto px-4">
         <AnimatedTitle className="mb-6 text-white">
@@ -192,7 +192,7 @@ const Testimonials = ({ language }) => {
             : "Lo Que Dicen Nuestros Clientes"}
         </AnimatedTitle>
         <div className="flex items-center justify-center mb-12">
-          <Star size={24} className="text-[#FFD700] mr-2" fill="#FFD700" />
+          <Star size={24} className="text-accent mr-2" fill="#FFD700" />
           <span className="text-white text-2xl font-bold">
             {averageRating.toFixed(1)}
           </span>
@@ -206,13 +206,13 @@ const Testimonials = ({ language }) => {
             onClick={prevTestimonial}
             className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-12 bg-white rounded-full p-2 shadow-lg"
           >
-            <ChevronLeft size={24} className="text-[#004AAE]" />
+            <ChevronLeft size={24} className="text-primary" />
           </button>
           <button
             onClick={nextTestimonial}
             className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-12 bg-white rounded-full p-2 shadow-lg"
           >
-            <ChevronRight size={24} className="text-[#004AAE]" />
+            <ChevronRight size={24} className="text-primary" />
           </button>
         </div>
       </div>

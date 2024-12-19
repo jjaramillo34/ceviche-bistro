@@ -62,17 +62,17 @@ const AnimatedTitle = ({ children, className }) => {
     <div className={`relative text-center ${className}`}>
       <h2
         ref={titleRef}
-        className="text-3xl sm:text-4xl md:text-5xl font-bold inline-block px-4 relative"
+        className="text-4xl sm:text-5xl md:text-6xl font-extrabold inline-block px-4 relative text-primary"
       >
         {children}
         <span
           ref={lineLeftRef}
-          className="absolute left-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform -translate-x-full"
+          className="absolute left-0 bottom-0 h-1 bg-accent rounded-full transform -translate-x-full"
           style={{ width: "50px" }}
         ></span>
         <span
           ref={lineRightRef}
-          className="absolute right-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform translate-x-full"
+          className="absolute right-0 bottom-0 h-1 bg-accent rounded-full transform translate-x-full"
           style={{ width: "50px" }}
         ></span>
       </h2>
@@ -126,36 +126,23 @@ const AnimatedText = ({ text }) => {
   const textRef = useRef(null);
 
   useEffect(() => {
-    const animation = gsap.timeline({
+    gsap.from(textRef.current, {
+      opacity: 0,
+      y: 20,
+      duration: 0.5,
       scrollTrigger: {
         trigger: textRef.current,
         start: "top 80%",
-        end: "bottom 20%",
         toggleActions: "play none none reverse",
       },
     });
+  }, []);
 
-    animation
-      .from(textRef.current, { opacity: 0, y: 20, duration: 0.5 })
-      .to(textRef.current, {
-        duration: 1.5,
-        text: {
-          value: text,
-          delimiter: "",
-        },
-        ease: "none",
-      });
-
-    return () => {
-      animation.kill();
-    };
-  }, [text]);
-
-  return <span ref={textRef}></span>;
-};
-
-AnimatedText.propTypes = {
-  text: PropTypes.string.isRequired,
+  return (
+    <span ref={textRef} className="font-semibold text-accent">
+      {text}
+    </span>
+  );
 };
 
 const Gallery = ({ language }) => {
@@ -186,10 +173,10 @@ const Gallery = ({ language }) => {
       className="py-24 bg-gradient-to-b from-[#E6F7FF] to-[#F5F5F5]"
     >
       <div className="container mx-auto px-4">
-        <AnimatedTitle className="mb-8 text-[#004AAE]">
+        <AnimatedTitle className="mb-8 text-primary">
           {language === "en" ? "Event Highlights" : "Momentos Destacados"}
         </AnimatedTitle>
-        <p className="text-xl text-center mb-16 text-[#333333]">
+        <p className="text-xl text-center mb-16 text-text">
           {language === "en"
             ? "Explore the vibrant moments from our culinary events and social gatherings"
             : "Explora los momentos vibrantes de nuestros eventos culinarios y reuniones sociales"}
@@ -253,7 +240,7 @@ const Gallery = ({ language }) => {
         </div>
 
         <div className="mt-16">
-          <h3 className="text-2xl font-semibold text-center mb-8 text-[#004AAE]">
+          <h3 className="text-2xl font-semibold text-center mb-8 text-primary">
             {language === "en" ? "Popular Hashtags" : "Hashtags Populares"}
           </h3>
           <div className="flex flex-wrap justify-center gap-4">
@@ -262,7 +249,7 @@ const Gallery = ({ language }) => {
                 key={index}
                 className="bg-white rounded-full px-4 py-2 shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105 group"
               >
-                <span className="text-[#004AAE] font-semibold group-hover:text-[#FFD700]">
+                <span className="text-primary font-semibold group-hover:text-accent">
                   <Hash size={16} className="inline-block mr-1" />
                   <AnimatedText text={hashtag} />
                 </span>

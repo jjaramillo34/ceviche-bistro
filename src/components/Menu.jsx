@@ -179,20 +179,18 @@ const MenuItem = ({ item, language, onInfoClick }) => {
           />
           <button
             onClick={() => onInfoClick(item)}
-            className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md hover:bg-[#FFD700] transition-colors duration-300"
+            className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md hover:bg-accent transition-colors duration-300"
             aria-label="More information"
           >
-            <Info size={20} className="text-[#004AAE]" />
+            <Info size={20} className="text-primary" />
           </button>
         </div>
         <div className="p-4 flex-grow flex flex-col justify-between">
           <div>
-            <h3 className="text-xl font-semibold mb-2 text-[#004AAE]">
+            <h3 className="text-xl font-semibold mb-2 text-primary">
               {item.name[language]}
             </h3>
-            <p className="text-[#333333] text-sm">
-              {item.description[language]}
-            </p>
+            <p className="text-text text-sm">{item.description[language]}</p>
           </div>
         </div>
       </div>
@@ -431,7 +429,7 @@ const Menu = ({ language }) => {
       className="py-24 bg-gradient-to-r from-[#E6F7FF] via-[#F0F8FF] to-[#E6F7FF]"
     >
       <div className="container mx-auto px-4">
-        <AnimatedTitle className="mb-16 text-[#004AAE]">
+        <AnimatedTitle className="mb-16 text-primary">
           {language === "en" ? "Our Menu" : "Nuestro Menú"}
         </AnimatedTitle>
         <div className="relative px-16">
@@ -449,7 +447,7 @@ const Menu = ({ language }) => {
         <div className="text-center mt-12">
           <button
             onClick={() => setIsPDFOpen(true)}
-            className="bg-[#FFD700] text-[#333333] px-6 py-3 rounded-full text-xl font-semibold hover:bg-[#C4A95D] transition-colors duration-300 flex items-center mx-auto"
+            className="bg-accent text-text px-6 py-3 rounded-full text-xl font-semibold hover:bg-primary hover:text-white transition duration-300 flex items-center mx-auto"
           >
             <FileText size={24} className="mr-2" />
             {language === "en" ? "View Full Menu PDF" : "Ver Menú Completo PDF"}

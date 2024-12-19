@@ -27,13 +27,10 @@ const PDFMenuViewer = ({ language, onClose }) => {
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
       <div className="bg-white rounded-lg p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold text-[#004AAE]">
+          <h2 className="text-2xl font-bold text-primary">
             {language === "en" ? "Full Menu" : "Menú Completo"}
           </h2>
-          <button
-            onClick={onClose}
-            className="text-[#004AAE] hover:text-[#FFD700]"
-          >
+          <button onClick={onClose} className="text-primary hover:text-accent">
             ✕
           </button>
         </div>
@@ -48,7 +45,7 @@ const PDFMenuViewer = ({ language, onClose }) => {
             </div>
           }
           loading={
-            <div className="text-[#004AAE]">
+            <div className="text-primary">
               {language === "en" ? "Loading PDF..." : "Cargando PDF..."}
             </div>
           }
@@ -99,7 +96,7 @@ const Hero = ({ language }) => {
       <div className="hero-image absolute inset-0 w-full h-full">
         <img
           src={heroImage}
-          alt=""
+          alt="Ceviche Bistro Hero"
           className="w-full h-full object-cover"
           aria-hidden="true"
         />
@@ -107,7 +104,7 @@ const Hero = ({ language }) => {
 
       <div className="absolute inset-0 bg-[#004AAE] bg-opacity-50"></div>
       <div className="relative z-20 text-center text-white hero-content">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-[#FFD700]">
+        <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6 text-accent">
           {language === "en"
             ? "Welcome to Ceviche Bistro"
             : "Bienvenidos a Ceviche Bistro"}
@@ -120,13 +117,13 @@ const Hero = ({ language }) => {
         <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
           <a
             href="#menu"
-            className="hero-button bg-[#FFD700] text-[#333333] px-8 py-4 rounded-full text-xl font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 inline-block focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:ring-opacity-50"
+            className="hero-button bg-accent text-text px-8 py-4 rounded-full text-xl font-semibold hover:bg-primary hover:text-white transition duration-300 inline-block focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50"
           >
             {language === "en" ? "Explore Our Menu" : "Explora Nuestro Menú"}
           </a>
           <button
             onClick={() => setIsPDFOpen(true)}
-            className="hero-button bg-white text-[#004AAE] px-8 py-4 rounded-full text-xl font-semibold hover:bg-[#FFD700] hover:text-[#333333] transition duration-300 inline-block focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+            className="hero-button bg-white text-primary px-8 py-4 rounded-full text-xl font-semibold hover:bg-accent hover:text-white transition duration-300 inline-block focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
           >
             {language === "en" ? "View Full Menu PDF" : "Ver Menú Completo PDF"}
           </button>
@@ -138,7 +135,7 @@ const Hero = ({ language }) => {
       >
         <div className="animate-bounce">
           <svg
-            className="w-6 h-6 text-[#FFD700]"
+            className="w-6 h-6 text-accent"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"

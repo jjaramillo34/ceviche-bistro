@@ -42,17 +42,17 @@ const AnimatedTitle = ({ children, className }) => {
     <div className={`relative text-center ${className}`}>
       <h2
         ref={titleRef}
-        className="text-3xl sm:text-4xl md:text-5xl font-bold inline-block px-4 relative"
+        className="text-4xl sm:text-5xl md:text-6xl font-extrabold inline-block px-4 relative text-white"
       >
         {children}
         <span
           ref={lineLeftRef}
-          className="absolute left-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform -translate-x-full"
+          className="absolute left-0 bottom-0 h-1 bg-accent rounded-full transform -translate-x-full"
           style={{ width: "50px" }}
         ></span>
         <span
           ref={lineRightRef}
-          className="absolute right-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform translate-x-full"
+          className="absolute right-0 bottom-0 h-1 bg-accent rounded-full transform translate-x-full"
           style={{ width: "50px" }}
         ></span>
       </h2>
@@ -73,9 +73,9 @@ const SocialQRCode = ({ platform, icon: Icon, qrCode }) => {
       className="flex items-center space-x-4 cursor-pointer"
       onClick={() => setActiveQR(activeQR === platform ? null : platform)}
     >
-      <Icon size={24} className="text-[#FFD700]" />
-      <span className="text-[#FFD700]">{platform}</span>
-      <QrCode size={24} className="text-[#FFD700]" />
+      <Icon size={24} className="text-accent" />
+      <span className="text-accent">{platform}</span>
+      <QrCode size={24} className="text-accent" />
       {activeQR === platform && (
         <img
           src={qrCode}
@@ -163,7 +163,7 @@ const Contact = ({ language }) => {
     <section
       ref={sectionRef}
       id="contact"
-      className="py-24 bg-gradient-to-br from-[#004AAE] to-[#001F4D]"
+      className="py-24 bg-gradient-to-br from-primary to-[#001F4D]"
     >
       <div className="container mx-auto px-4">
         <AnimatedTitle className="mb-12 text-white">
@@ -171,7 +171,7 @@ const Contact = ({ language }) => {
         </AnimatedTitle>
         <div className="flex flex-col lg:flex-row bg-white rounded-lg shadow-2xl overflow-hidden">
           <div ref={formRef} className="lg:w-1/2 p-8">
-            <AnimatedTitle className="mb-6 text-[#004AAE]">
+            <AnimatedTitle className="mb-6 text-primary">
               {language === "en" ? "Send Us a Message" : "Envíanos un Mensaje"}
             </AnimatedTitle>
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -186,7 +186,7 @@ const Contact = ({ language }) => {
                   type="text"
                   id="name"
                   name="name"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004AAE] transition duration-300"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition duration-300"
                   required
                 />
               </div>
@@ -201,7 +201,7 @@ const Contact = ({ language }) => {
                   type="email"
                   id="email"
                   name="email"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004AAE] transition duration-300"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition duration-300"
                   required
                 />
               </div>
@@ -216,13 +216,13 @@ const Contact = ({ language }) => {
                   id="message"
                   name="message"
                   rows="4"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004AAE] transition duration-300"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition duration-300"
                   required
                 ></textarea>
               </div>
               <button
                 type="submit"
-                className="bg-[#FFD700] text-[#333333] px-8 py-4 rounded-full text-lg font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 flex items-center justify-center w-full"
+                className="bg-accent text-text px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary hover:text-white transition duration-300 flex items-center justify-center w-full"
               >
                 <Send size={20} className="mr-2" />
                 {language === "en" ? "Send Message" : "Enviar Mensaje"}
@@ -231,7 +231,7 @@ const Contact = ({ language }) => {
           </div>
           <div
             ref={infoRef}
-            className="lg:w-1/2 bg-[#004AAE] text-white p-8 relative overflow-hidden"
+            className="lg:w-1/2 bg-primary text-white p-8 relative overflow-hidden"
             style={{
               backgroundImage:
                 "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23DDC36B' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E\")",
@@ -289,7 +289,7 @@ const Contact = ({ language }) => {
           ref={mapRef}
           className="mt-12 bg-white rounded-lg shadow-2xl overflow-hidden"
         >
-          <div className="p-4 bg-[#004AAE] text-white flex justify-between items-center">
+          <div className="p-4 bg-primary text-white flex justify-between items-center">
             <h3 className="text-xl font-semibold">
               {language === "en" ? "Find Us Here" : "Encuéntranos Aquí"}
             </h3>

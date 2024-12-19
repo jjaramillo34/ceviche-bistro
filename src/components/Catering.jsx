@@ -32,17 +32,17 @@ const AnimatedTitle = ({ children, className }) => {
     <div className={`relative text-center ${className}`}>
       <h2
         ref={titleRef}
-        className="text-3xl sm:text-4xl md:text-5xl font-bold inline-block px-4 relative"
+        className="text-4xl sm:text-5xl md:text-6xl font-extrabold inline-block px-4 relative text-primary"
       >
         {children}
         <span
           ref={lineLeftRef}
-          className="absolute left-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform -translate-x-full"
+          className="absolute left-0 bottom-0 h-1 bg-accent rounded-full transform -translate-x-full"
           style={{ width: "50px" }}
         ></span>
         <span
           ref={lineRightRef}
-          className="absolute right-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform translate-x-full"
+          className="absolute right-0 bottom-0 h-1 bg-accent rounded-full transform translate-x-full"
           style={{ width: "50px" }}
         ></span>
       </h2>
@@ -50,18 +50,13 @@ const AnimatedTitle = ({ children, className }) => {
   );
 };
 
-AnimatedTitle.propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-};
-
 const CateringFeature = ({ icon: Icon, title, description }) => (
-  <div className="flex flex-col items-center text-center p-8 bg-white rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 border border-[#004AAE] border-opacity-20">
-    <div className="w-20 h-20 rounded-full bg-[#004AAE] bg-opacity-10 flex items-center justify-center mb-6">
-      <Icon size={36} className="text-[#004AAE]" aria-hidden="true" />
+  <div className="flex flex-col items-center text-center p-8 bg-white rounded-lg shadow-lg transform hover:scale-105 transition-transform duration-300 border border-primary border-opacity-20">
+    <div className="w-20 h-20 rounded-full bg-primary bg-opacity-10 flex items-center justify-center mb-6">
+      <Icon size={36} className="text-primary" aria-hidden="true" />
     </div>
-    <h3 className="text-2xl font-semibold mb-4 text-[#004AAE]">{title}</h3>
-    <p className="text-[#333333] text-lg">{description}</p>
+    <h3 className="text-2xl font-semibold mb-4 text-primary">{title}</h3>
+    <p className="text-text text-lg">{description}</p>
   </div>
 );
 
@@ -119,8 +114,8 @@ const Catering = ({ language }) => {
         duration: 3,
         text:
           language === "en"
-            ? "Bring the flavors of CevicheBistro to your next event. We offer full-service catering for any occasion, big or small."
-            : "Lleve los sabores de CevicheBistro a su próximo evento. Ofrecemos servicio completo de catering para cualquier ocasión, grande o pequeña.",
+            ? "Bring the flavors of Ceviche Bistro to your next event. We offer full-service catering for any occasion, big or small."
+            : "Lleve los sabores de Ceviche Bistro a su próximo evento. Ofrecemos servicio completo de catering para cualquier ocasión, grande o pequeña.",
         ease: "power1.inOut",
         delay: 1,
       });
@@ -171,14 +166,14 @@ const Catering = ({ language }) => {
       className="py-24 bg-gradient-to-br from-[#E6F3FF] to-[#F5F5F5]"
     >
       <div className="container mx-auto px-4">
-        <AnimatedTitle className="mb-8 text-[#004AAE]">
+        <AnimatedTitle className="mb-8 text-primary">
           {language === "en" ? "Catering Services" : "Servicios de Catering"}
         </AnimatedTitle>
 
         <div className="max-w-3xl mx-auto text-center mb-16">
           <p
             ref={descriptionRef}
-            className="text-xl text-[#333333] leading-relaxed animate-fadeIn"
+            className="text-xl text-text leading-relaxed animate-fadeIn"
             aria-live="polite"
           ></p>
         </div>
@@ -193,7 +188,7 @@ const Catering = ({ language }) => {
         <div className="mt-16 text-center">
           <a
             href="#contact"
-            className="bg-[#FFD700] text-[#333333] px-10 py-5 rounded-full text-2xl font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 inline-block shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-[#004AAE] focus:ring-opacity-50"
+            className="bg-accent text-text px-10 py-5 rounded-full text-2xl font-semibold hover:bg-primary hover:text-white transition duration-300 inline-block shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
             aria-label={
               language === "en" ? "Request Catering" : "Solicitar Catering"
             }

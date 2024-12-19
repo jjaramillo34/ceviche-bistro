@@ -59,7 +59,7 @@ const Header = ({ language, toggleLanguage }) => {
             <a
               href="#"
               className={`text-2xl font-bold ${
-                isScrolled ? "text-[#004AAE]" : "text-white"
+                isScrolled ? "text-primary" : "text-white"
               } transition-colors duration-300`}
             >
               CevicheBistro
@@ -70,7 +70,7 @@ const Header = ({ language, toggleLanguage }) => {
               onClick={toggleMenu}
               className={`p-2 rounded-full transition-colors duration-300 ${
                 isScrolled
-                  ? "text-[#004AAE] hover:bg-[#FFD700]"
+                  ? "text-primary hover:bg-accent"
                   : "text-white hover:bg-white/20"
               }`}
             >
@@ -96,7 +96,7 @@ const Header = ({ language, toggleLanguage }) => {
                     href={item.href}
                     className={`flex items-center px-3 py-2 rounded-full transition duration-300 ${
                       isScrolled
-                        ? "text-[#333333] hover:text-[#004AAE] hover:bg-[#FFD700]"
+                        ? "text-text hover:text-primary hover:bg-accent"
                         : "text-white hover:bg-white/20"
                     }`}
                     onClick={() => setIsMenuOpen(false)}
@@ -114,8 +114,8 @@ const Header = ({ language, toggleLanguage }) => {
                   }}
                   className={`flex items-center space-x-2 px-3 py-2 rounded-full transition duration-300 ${
                     isScrolled
-                      ? "bg-[#FFD700] text-[#004AAE] hover:bg-[#004AAE] hover:text-[#FFD700]"
-                      : "bg-white/20 text-white hover:bg-white hover:text-[#004AAE]"
+                      ? "bg-accent text-primary hover:bg-primary hover:text-white"
+                      : "bg-white/20 text-white hover:bg-white hover:text-primary"
                   }`}
                 >
                   <Globe size={18} />
@@ -127,7 +127,7 @@ const Header = ({ language, toggleLanguage }) => {
         </div>
       </div>
       <div
-        className={`absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-[#FFD700] via-[#004AAE] to-[#FFD700] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ${
+        className={`absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-accent via-primary to-accent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ${
           isScrolled ? "opacity-100" : "opacity-0"
         }`}
       ></div>

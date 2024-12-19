@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
+import { X } from "lucide-react";
 
 // Set the worker source for react-pdf
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -22,23 +23,23 @@ const PDFMenuViewer = ({ language }) => {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="bg-[#FFD700] text-white px-6 py-2 rounded-full hover:bg-[#004AAE] transition duration-300"
+        className="bg-accent text-text px-6 py-2 rounded-full hover:bg-primary transition duration-300"
       >
         {language === "en" ? "See Full Menu" : "Ver Menú Completo"}
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-[#004AAE]">
+              <h2 className="text-2xl font-bold text-primary">
                 {language === "en" ? "Full Menu" : "Menú Completo"}
               </h2>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-[#004AAE] hover:text-[#FFD700]"
+                className="text-primary hover:text-accent"
               >
-                ✕
+                <X size={24} />
               </button>
             </div>
             <Document
@@ -52,7 +53,7 @@ const PDFMenuViewer = ({ language }) => {
                 </div>
               }
               loading={
-                <div className="text-[#004AAE]">
+                <div className="text-primary">
                   {language === "en" ? "Loading PDF..." : "Cargando PDF..."}
                 </div>
               }

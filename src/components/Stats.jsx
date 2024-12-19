@@ -31,17 +31,17 @@ const AnimatedTitle = ({ children, className }) => {
     <div className={`relative text-center ${className}`}>
       <h2
         ref={titleRef}
-        className="text-3xl sm:text-4xl md:text-5xl font-bold inline-block px-4 relative"
+        className="text-4xl sm:text-5xl md:text-6xl font-extrabold inline-block px-4 relative text-primary"
       >
         {children}
         <span
           ref={lineLeftRef}
-          className="absolute left-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform -translate-x-full"
+          className="absolute left-0 bottom-0 h-1 bg-accent rounded-full transform -translate-x-full"
           style={{ width: "50px" }}
         ></span>
         <span
           ref={lineRightRef}
-          className="absolute right-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform translate-x-full"
+          className="absolute right-0 bottom-0 h-1 bg-accent rounded-full transform translate-x-full"
           style={{ width: "50px" }}
         ></span>
       </h2>
@@ -100,10 +100,10 @@ const StatCard = ({ icon: Icon, value, label, language }) => {
       ref={cardRef}
       className="bg-white rounded-lg shadow-lg p-8 flex flex-col items-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
     >
-      <div className="w-20 h-20 rounded-full bg-[#004AAE] bg-opacity-10 flex items-center justify-center mb-6">
-        <Icon size={40} className="text-[#FFD700]" aria-hidden="true" />
+      <div className="w-20 h-20 rounded-full bg-primary bg-opacity-10 flex items-center justify-center mb-6">
+        <Icon size={40} className="text-accent" aria-hidden="true" />
       </div>
-      <p className="text-5xl font-bold text-[#004AAE] mb-4">
+      <p className="text-5xl font-bold text-primary mb-4">
         <span ref={numberRef} aria-live="polite">
           {value}
         </span>
@@ -175,7 +175,7 @@ const Stats = ({ language }) => {
       className="py-24 bg-gradient-to-r from-[#E6F7FF] to-[#F5F5F5]"
     >
       <div className="container mx-auto px-4">
-        <AnimatedTitle className="mb-16 text-[#004AAE]">
+        <AnimatedTitle className="mb-16 text-primary">
           {language === "en"
             ? "Our Success in Numbers"
             : "Nuestro Éxito en Números"}

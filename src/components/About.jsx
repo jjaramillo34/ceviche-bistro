@@ -31,27 +31,22 @@ const AnimatedTitle = ({ children, className }) => {
     <div className={`relative text-center ${className}`}>
       <h2
         ref={titleRef}
-        className="text-3xl sm:text-4xl md:text-5xl font-bold inline-block px-4 relative"
+        className="text-4xl sm:text-5xl md:text-6xl font-extrabold inline-block px-4 relative text-primary"
       >
         {children}
         <span
           ref={lineLeftRef}
-          className="absolute left-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform -translate-x-full"
+          className="absolute left-0 bottom-0 h-1 bg-accent rounded-full transform -translate-x-full"
           style={{ width: "50px" }}
         ></span>
         <span
           ref={lineRightRef}
-          className="absolute right-0 bottom-0 h-1 bg-[#FFD700] rounded-full transform translate-x-full"
+          className="absolute right-0 bottom-0 h-1 bg-accent rounded-full transform translate-x-full"
           style={{ width: "50px" }}
         ></span>
       </h2>
     </div>
   );
-};
-
-AnimatedTitle.propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
 };
 
 const About = ({ language }) => {
@@ -190,15 +185,15 @@ const About = ({ language }) => {
     <section
       ref={sectionRef}
       id="about"
-      className="py-24 bg-gradient-to-b from-[#E6F7FF] to-[#F5F5F5]"
+      className="py-24 bg-gradient-to-b from-[#F7FAFC] to-[#F5F5F5]"
     >
       <div className="container mx-auto px-4">
-        <AnimatedTitle className="mb-8 text-[#004AAE]">
+        <AnimatedTitle className="mb-8 text-primary">
           {language === "en"
             ? "Discover Our Story"
             : "Descubre Nuestra Historia"}
         </AnimatedTitle>
-        <p className="text-xl text-center mb-16 text-[#333333]">
+        <p className="text-xl text-center mb-16 text-text">
           {language === "en"
             ? "Experience the passion behind Ceviche Bistro"
             : "Experimenta la pasión detrás de Ceviche Bistro"}
@@ -213,12 +208,12 @@ const About = ({ language }) => {
               />
             </div>
             <div ref={contentRef} className="lg:w-2/3 lg:pl-12">
-              <h3 className="text-3xl font-semibold mb-6 text-[#004AAE]">
+              <h3 className="text-3xl font-semibold mb-6 text-primary">
                 {language === "en"
                   ? "Meet Chef John Lopez"
                   : "Conoce al Chef John Lopez"}
               </h3>
-              <p className="text-lg mb-6 text-[#333333] leading-relaxed">
+              <p className="text-lg mb-6 text-text leading-relaxed">
                 {ownerBio[language]}
               </p>
               <div className="mb-6">
@@ -227,8 +222,8 @@ const About = ({ language }) => {
                     onClick={() => setActiveTab("who-we-are")}
                     className={`px-6 py-3 mr-2 rounded-t-lg font-semibold transition duration-300 ${
                       activeTab === "who-we-are"
-                        ? "bg-[#004AAE] text-white"
-                        : "bg-gray-200 text-[#333333] hover:bg-[#FFD700] hover:text-white"
+                        ? "bg-primary text-white"
+                        : "bg-gray-200 text-text hover:bg-accent hover:text-white"
                     }`}
                   >
                     {language === "en" ? "Who We Are" : "Quiénes Somos"}
@@ -237,15 +232,15 @@ const About = ({ language }) => {
                     onClick={() => setActiveTab("what-we-offer")}
                     className={`px-6 py-3 rounded-t-lg font-semibold transition duration-300 ${
                       activeTab === "what-we-offer"
-                        ? "bg-[#004AAE] text-white"
-                        : "bg-gray-200 text-[#333333] hover:bg-[#FFD700] hover:text-white"
+                        ? "bg-primary text-white"
+                        : "bg-gray-200 text-text hover:bg-accent hover:text-white"
                     }`}
                   >
                     {language === "en" ? "What We Offer" : "Qué Ofrecemos"}
                   </button>
                 </div>
                 <div className="bg-[#F5F5F5] p-6 rounded-b-lg rounded-tr-lg shadow-md">
-                  <p className="text-lg mb-4 text-[#333333] leading-relaxed">
+                  <p className="text-lg mb-4 text-text leading-relaxed">
                     {descriptions[activeTab][language]}
                   </p>
                 </div>
@@ -258,10 +253,10 @@ const About = ({ language }) => {
           ref={missionRef}
           className="bg-white rounded-lg shadow-2xl p-8 mb-16"
         >
-          <AnimatedTitle className="mb-8 text-[#004AAE]">
+          <AnimatedTitle className="mb-8 text-primary">
             {language === "en" ? "Our Mission" : "Nuestra Misión"}
           </AnimatedTitle>
-          <p className="text-lg mb-4 text-[#333333] leading-relaxed">
+          <p className="text-lg mb-4 text-text leading-relaxed">
             {mission[language]}
           </p>
         </div>
@@ -276,7 +271,7 @@ const About = ({ language }) => {
               className="bg-white rounded-lg shadow-lg p-6 text-center transform hover:scale-105 transition duration-300"
             >
               <div className="text-4xl mb-4">{feature.icon}</div>
-              <h4 className="text-xl font-semibold mb-4 text-[#004AAE]">
+              <h4 className="text-xl font-semibold mb-4 text-primary">
                 {feature[language]}
               </h4>
             </div>
@@ -286,7 +281,7 @@ const About = ({ language }) => {
         <div className="text-center">
           <a
             href="#menu"
-            className="bg-[#FFD700] text-[#333333] px-8 py-4 rounded-full text-lg font-semibold hover:bg-[#004AAE] hover:text-white transition duration-300 inline-flex items-center group"
+            className="bg-accent text-text px-8 py-4 rounded-full text-lg font-semibold hover:bg-primary hover:text-white transition duration-300 inline-flex items-center group"
           >
             {language === "en" ? "Explore Our Menu" : "Explora Nuestro Menú"}
             <ChevronDown className="ml-2 transform group-hover:translate-y-1 transition-transform duration-300" />
