@@ -104,7 +104,7 @@ const Hero = ({ language }) => {
 
       <div className="absolute inset-0 bg-[#004AAE] bg-opacity-50"></div>
       <div className="relative z-20 text-center text-white hero-content">
-        <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6 text-accent">
+        <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6 text-accent animate-fadeIn">
           {language === "en"
             ? "Welcome to Ceviche Bistro"
             : "Bienvenidos a Ceviche Bistro"}

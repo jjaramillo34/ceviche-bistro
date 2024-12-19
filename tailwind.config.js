@@ -3,18 +3,22 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "ceviche-blue": "#004AAE",
-        "ceviche-gold": "#FFD700",
-        "ceviche-dark": "#333333",
-        "ceviche-light": "#F5F5F5",
-        primary: "#D53F8C",
-        secondary: "#ED64A6",
-        accent: "#F6E05E",
-        background: "#F7FAFC",
-        text: "#2D3748",
+        primary: "#6F4C3E",
+        accent: "#F5E1C0",
+        text: "#2D2D2D",
+        background: "#FAF3E0",
       },
       fontFamily: {
         sans: ["Poppins", "sans-serif"],
+      },
+      animation: {
+        fadeIn: "fadeIn 0.5s ease-in-out",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
       },
     },
   },
